@@ -4,7 +4,7 @@ A composable **software engineering creed** for coding agents — discipline ski
 
 Nothing is true until a test can falsify it. Everything is permitted — except theater.
 
-Inspired by the structure of [Superpowers](https://github.com/obra/superpowers) (Iron Laws, rationalization tables, red flags, workflows), but focused on **engineering judgment**: *what* to test, *how* to assert, *when* unit vs integration, *how* to mock without lying to yourself.
+Inspired by the structure of [Superpowers](https://github.com/obra/superpowers) (Iron Laws, rationalization tables, red flags, workflows), but focused on **engineering judgment**: *what* to test, *how* to assert, *when* unit vs integration, *how* to mock without lying to yourself — and how to **ship in reviewable batches** with a real Test plan.
 
 [![skills.sh](https://skills.sh/b/Gusen1453/creed)](https://skills.sh/Gusen1453/creed)
 
@@ -14,10 +14,11 @@ Inspired by the structure of [Superpowers](https://github.com/obra/superpowers) 
 npx skills add Gusen1453/creed
 ```
 
-Install one skill:
+Install specific skills:
 
 ```bash
 npx skills add Gusen1453/creed --skill designing-test-cases
+npx skills add Gusen1453/creed --skill shipping-in-batches
 ```
 
 ## The Creed
@@ -27,6 +28,7 @@ npx skills add Gusen1453/creed --skill designing-test-cases
 - **Falsifiable tests** — break production code and the test must go red, or delete it
 - **Evidence over claims** — assert what callers see; mutate to prove the test works
 - **Hard to test = hard to use** — listen to the test; fix design instead of piling mocks
+- **One commit, one intent** — ship in batches; every PR carries an actionable Test plan
 
 ## How it relates to Superpowers
 
@@ -34,18 +36,25 @@ npx skills add Gusen1453/creed --skill designing-test-cases
 |-------|-------------|-------|
 | Rhythm | Red → green → refactor (TDD) | — |
 | Case design | — | What to feed, assert, mock |
-| Discipline | Rationalization tables, Iron Laws | Same pattern, applied to test quality |
+| Shipping | finishing a branch / PR mechanics | Batched commits + PR copy with Test plan |
+| Discipline | Rationalization tables, Iron Laws | Same pattern, applied to test & ship quality |
 | Scope | Full delivery workflow | Deep methodology for engineering decisions |
 
-Use both: Superpowers for *when/how to run the cycle*; Creed for *whether the test is worth writing and whether it actually protects anything*.
+Use both: Superpowers for *when/how to run the cycle*; Creed for *whether the test/commit/PR actually protects anything*.
 
 ## Skills library
 
-### Testing (shipping)
+### Testing
 
 | Skill | Use when |
 |-------|----------|
 | **designing-test-cases** | Writing/reviewing unit or integration tests; choosing cases, assertions, mocks; resisting coverage theater |
+
+### Shipping
+
+| Skill | Use when |
+|-------|----------|
+| **shipping-in-batches** | Splitting work into logical commits; writing commit messages; pushing a feature branch; drafting PR/MR title + description **with a Test plan** |
 
 ### Roadmap (planned)
 
@@ -64,6 +73,8 @@ Contributions welcome once a skill has been pressure-tested — prefer quality o
 ```
 skills/
   designing-test-cases/
+    SKILL.md
+  shipping-in-batches/
     SKILL.md
 ```
 
