@@ -17,6 +17,7 @@ npx skills add Gusen1453/creed
 Install specific skills:
 
 ```bash
+npx skills add Gusen1453/creed --skill grill
 npx skills add Gusen1453/creed --skill test-design
 npx skills add Gusen1453/creed --skill commit-and-push
 ```
@@ -29,20 +30,28 @@ npx skills add Gusen1453/creed --skill commit-and-push
 - **Evidence over claims** — assert what callers see; mutate to prove the test works
 - **Hard to test = hard to use** — listen to the test; fix design instead of piling mocks
 - **One commit, one intent** — batch commits; every PR carries an actionable Test plan
+- **Grill before you build** — one decision at a time; always mark a recommendation; no code until shared understanding
 
 ## How it relates to Superpowers
 
 | Layer | Superpowers | Creed |
 |-------|-------------|-------|
+| Design interview | brainstorming | `grill` (grilling + brainstorming + Cursor AskQuestion) |
 | Rhythm | Red → green → refactor (TDD) | — |
 | Case design | — | `test-design` |
 | Shipping | finishing a branch / PR mechanics | `commit-and-push` with Test plan |
-| Discipline | Rationalization tables, Iron Laws | Same pattern, applied to test & ship quality |
+| Discipline | Rationalization tables, Iron Laws | Same pattern, applied to design / test / ship quality |
 | Scope | Full delivery workflow | Deep methodology for engineering decisions |
 
-Use both: Superpowers for *when/how to run the cycle*; Creed for *whether the test/commit/PR actually protects anything*.
+Use both: Superpowers for *when/how to run the cycle*; Creed for *whether the design/test/commit/PR actually protects anything*.
 
 ## Skills library
+
+### Design
+
+| Skill | Use when |
+|-------|----------|
+| **grill** | Before creative work: relentless one-at-a-time interview down the decision tree; 2–3 approaches; approved design; **Cursor AskQuestion with Recommended: marked on options** |
 
 ### Testing
 
@@ -72,6 +81,8 @@ Contributions welcome once a skill has been pressure-tested — prefer quality o
 
 ```
 skills/
+  grill/
+    SKILL.md
   test-design/
     SKILL.md
   commit-and-push/
