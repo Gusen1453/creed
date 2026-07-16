@@ -12,7 +12,7 @@ Answers **"what input should a test feed, what should it assert, and what should
 **Core principle: tests protect a behavioral contract that users/callers can observe — not implementation details, and never a coverage number.**
 A good test is a falsifiable spec of the contract; a bad test restates the code in another syntax.
 
-**REQUIRED BACKGROUND:** for the write-test-first rhythm, see superpowers:test-driven-development. This skill only governs the *design quality* of cases and assertions.
+**REQUIRED COMPANION:** for the write-test-first rhythm, see **tdd**. This skill only governs the *design quality* of cases and assertions.
 
 ## When to Use
 
@@ -21,7 +21,7 @@ A good test is a falsifiable spec of the contract; a bad test restates the code 
 - Deciding "is this code worth testing?" or "unit vs integration?"
 - About to write a fake test under coverage pressure, deadline crunch, or sunk cost
 
-**When NOT to use:** just running tests / reading failures → test-runner. Just following the test-first rhythm → the TDD skill.
+**When NOT to use:** just running tests / reading failures → test-runner. Just following the test-first rhythm → **tdd**.
 
 ## The Iron Law (non-negotiable)
 

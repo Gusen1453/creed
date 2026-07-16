@@ -4,7 +4,7 @@ A composable **software engineering creed** for coding agents — discipline ski
 
 Nothing is true until a test can falsify it. Everything is permitted — except theater.
 
-Inspired by the structure of [Superpowers](https://github.com/obra/superpowers) (Iron Laws, rationalization tables, red flags, workflows), but focused on **engineering judgment**: *what* to test, *how* to assert, *when* unit vs integration, *how* to mock without lying to yourself — and how to **commit and push** with a real Test plan.
+Inspired by the structure of [Superpowers](https://github.com/obra/superpowers) (Iron Laws, rationalization tables, red flags, workflows), focused on **engineering judgment** across design → test → ship.
 
 [![skills.sh](https://skills.sh/b/Gusen1453/creed)](https://skills.sh/Gusen1453/creed)
 
@@ -18,32 +18,40 @@ Install specific skills:
 
 ```bash
 npx skills add Gusen1453/creed --skill grill
+npx skills add Gusen1453/creed --skill tdd
 npx skills add Gusen1453/creed --skill test-design
 npx skills add Gusen1453/creed --skill commit-and-push
 ```
 
+## Suggested flow
+
+```
+grill → tdd (+ test-design) → commit-and-push
+```
+
+1. **grill** — align on the design (one decision at a time)
+2. **tdd** — red → green → refactor; **test-design** — what to assert/mock
+3. **commit-and-push** — batched commits + PR with Test plan
+
 ## The Creed
 
-- **Contracts over coverage** — protect user/caller-observable behavior, not line counts
+- **Grill before you build** — one decision at a time; mark a recommendation; no code until shared understanding
+- **Fail first** — no production code without a failing test you watched go red
+- **Contracts over coverage** — protect observable behavior, not line counts
 - **ROI over ritual** — unit-test complex logic; integration-test glue; skip theater
-- **Falsifiable tests** — break production code and the test must go red, or delete it
-- **Evidence over claims** — assert what callers see; mutate to prove the test works
 - **Hard to test = hard to use** — listen to the test; fix design instead of piling mocks
-- **One commit, one intent** — batch commits; every PR carries an actionable Test plan
-- **Grill before you build** — one decision at a time; always mark a recommendation; no code until shared understanding
+- **One commit, one intent** — every PR carries an actionable Test plan
 
 ## How it relates to Superpowers
 
 | Layer | Superpowers | Creed |
 |-------|-------------|-------|
-| Design interview | brainstorming | `grill` (grilling + brainstorming + Cursor AskQuestion) |
-| Rhythm | Red → green → refactor (TDD) | — |
-| Case design | — | `test-design` |
-| Shipping | finishing a branch / PR mechanics | `commit-and-push` with Test plan |
-| Discipline | Rationalization tables, Iron Laws | Same pattern, applied to design / test / ship quality |
-| Scope | Full delivery workflow | Deep methodology for engineering decisions |
+| Design interview | brainstorming | `grill` |
+| TDD rhythm | test-driven-development | `tdd` |
+| Case / assert / mock quality | (lightly in TDD) | `test-design` |
+| Shipping | finishing a branch / PR | `commit-and-push` |
 
-Use both: Superpowers for *when/how to run the cycle*; Creed for *whether the design/test/commit/PR actually protects anything*.
+Use both suites if you want; Creed is the judgment layer with short, intuitive skill names.
 
 ## Skills library
 
@@ -51,42 +59,38 @@ Use both: Superpowers for *when/how to run the cycle*; Creed for *whether the de
 
 | Skill | Use when |
 |-------|----------|
-| **grill** | Before creative work: relentless one-at-a-time interview down the decision tree; 2–3 approaches; approved design; **Cursor AskQuestion with Recommended: marked on options** |
+| **grill** | Before creative work: decision-tree interview; 2–3 approaches; approved design; Cursor AskQuestion with `Recommended:` on options |
 
 ### Testing
 
 | Skill | Use when |
 |-------|----------|
-| **test-design** | Writing/reviewing unit or integration tests; choosing cases, assertions, mocks; resisting coverage theater |
+| **tdd** | Implementing features/fixes — failing test first, watch RED, minimal GREEN, REFACTOR |
+| **test-design** | Choosing cases, assertions, mocks; resisting coverage theater (companion to `tdd`) |
 
 ### Shipping
 
 | Skill | Use when |
 |-------|----------|
-| **commit-and-push** | Batch commits by intent; write commit messages; push a feature branch; draft PR/MR title + description **with a Test plan** |
+| **commit-and-push** | Batch commits; push feature branch; draft PR/MR with **Test plan** |
 
 ### Roadmap (planned)
 
 | Area | Planned skills |
 |------|----------------|
-| **Testing** | choosing-test-shape (pyramid vs diamond), mutation-checking, recording-based integration |
-| **Design** | extracting-testable-cores, boundary-first design |
-| **Debugging** | evidence-first diagnosis (complements systematic-debugging) |
+| **Testing** | choosing-test-shape, mutation-checking, recording-based integration |
+| **Debugging** | evidence-first diagnosis |
 | **Review** | reviewing-tests-for-formalism |
-| **Meta** | writing-discipline-skills (Iron Law + rationalization table recipe) |
-
-Contributions welcome once a skill has been pressure-tested — prefer quality over a long unread catalog.
+| **Meta** | writing-discipline-skills |
 
 ## Skill structure
 
 ```
 skills/
   grill/
-    SKILL.md
+  tdd/
   test-design/
-    SKILL.md
   commit-and-push/
-    SKILL.md
 ```
 
 Each skill is a `SKILL.md` with YAML `name` + `description` (trigger conditions only), following the [Agent Skills](https://agentskills.io) format.
