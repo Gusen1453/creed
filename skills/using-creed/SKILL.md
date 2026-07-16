@@ -20,7 +20,10 @@ No rationalizing past the checklist. Process skills set the approach; then do th
 Creed is a composable software-engineering discipline for agents. Default flow:
 
 ```
-grill → solid → tdd (+ test-design) → commit-and-push
+using-creed
+  → grill → solid → write-plan
+  → tdd (+ test-design)
+  → debug? → review → commit-and-push
 ```
 
 Nothing is true until a test can falsify it. Everything is permitted — except theater.
@@ -38,19 +41,24 @@ Announce "Using <skill> to …" and follow it. If it has a checklist, one todo p
 
 | Situation | Skill |
 |-----------|--------|
-| New feature / behavior / architecture / "brainstorm" / "grill me" | **grill** |
-| Shaping modules, dependencies, testability, "this is hard to mock" | **solid** |
-| Implementing after design approved | **tdd** |
-| What to assert / mock / whether a test is theater | **test-design** |
-| Commit, push, PR/MR copy + Test plan | **commit-and-push** |
-| Session bootstrap / which Creed skill? | **using-creed** (this) |
+| Session bootstrap / which skill? | **using-creed** (this) |
+| New feature / architecture / "grill me" / brainstorm | **grill** |
+| Boundaries, DIP/SRP, "too many mocks" | **solid** |
+| Approved design → task breakdown | **write-plan** |
+| Implementing behavior | **tdd** |
+| What to assert / mock / theater check | **test-design** |
+| Bug / failure / about to say "fixed" | **debug** |
+| Before PR / after a task slice | **review** |
+| Commit, push, PR + Test plan | **commit-and-push** |
 
-Process order when several apply: **grill → solid → tdd/test-design → commit-and-push**.
+Process order when several apply:
+
+`grill → solid → write-plan → tdd/test-design → (debug) → review → commit-and-push`
 
 ## Priority vs other suites
 
 - User instructions (AGENTS.md, rules, explicit asks) win.
-- Creed and Superpowers can coexist: Creed owns judgment (grill/solid/test-design/ship copy); Superpowers may own extra mechanics (worktrees, subagents). Prefer Creed names when both cover the same step (`grill` over brainstorming, `tdd` over test-driven-development) if Creed is installed.
+- Creed and Superpowers can coexist. Prefer Creed names when both cover the same step (`grill`, `tdd`, `write-plan`, `debug`, `review`) if Creed is installed. Superpowers may still supply worktrees / subagent runners.
 
 ## Red Flags — STOP, check skills first
 
@@ -59,15 +67,16 @@ Process order when several apply: **grill → solid → tdd/test-design → comm
 | "Just a simple question / tiny change" | Still a task. Check grill/tdd/solid. |
 | "I need context first" | Skills say *how* to gather context. Check first. |
 | "I'll explore the repo quickly" | Exploration without the skill skips the gate. |
-| "Skill is overkill / I remember it" | Read the current SKILL.md. Skills evolve. |
-| "Jump to coding, design is obvious" | **grill** (+ **solid**) first unless user forbade it. |
+| "Jump to coding, design is obvious" | **grill** (+ **solid** + **write-plan**) first. |
+| "Quick fix without root cause" | **debug**. |
 | "Tests after / mock everything" | **tdd** + **test-design**. |
-| "One big commit to test" | **commit-and-push**. |
+| "Ship without reading the diff" | **review** then **commit-and-push**. |
 
 ## Checklist (every turn that does work)
 
 - [ ] Relevant Creed skill identified (or consciously N/A)
 - [ ] Skill read/followed; announced
-- [ ] Not implementing before grill approval (when building)
+- [ ] Not implementing before grill/plan when building
 - [ ] Not skipping tdd/test-design on behavior changes
-- [ ] Shipping via commit-and-push when asked to commit/push/PR
+- [ ] Bugs go through debug; claims have fresh evidence
+- [ ] Shipping via review + commit-and-push when asked to commit/push/PR
