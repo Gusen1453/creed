@@ -1,24 +1,26 @@
-﻿# Engineering Craft
+﻿# Creed
 
-A composable **software engineering methodology** for coding agents — discipline skills that make agents design, test, debug, and ship like careful senior engineers, not coverage-chasing code generators.
+A composable **software engineering creed** for coding agents — discipline skills that make agents design, test, debug, and ship like careful senior engineers, not coverage-chasing code generators.
+
+Nothing is true until a test can falsify it. Everything is permitted — except theater.
 
 Inspired by the structure of [Superpowers](https://github.com/obra/superpowers) (Iron Laws, rationalization tables, red flags, workflows), but focused on **engineering judgment**: *what* to test, *how* to assert, *when* unit vs integration, *how* to mock without lying to yourself.
 
-[![skills.sh](https://skills.sh/b/Gusen1453/engineering-craft)](https://skills.sh/Gusen1453/engineering-craft)
+[![skills.sh](https://skills.sh/b/Gusen1453/creed)](https://skills.sh/Gusen1453/creed)
 
 ## Quickstart
 
 ```bash
-npx skills add Gusen1453/engineering-craft
+npx skills add Gusen1453/creed
 ```
 
 Install one skill:
 
 ```bash
-npx skills add Gusen1453/engineering-craft --skill designing-test-cases
+npx skills add Gusen1453/creed --skill designing-test-cases
 ```
 
-## Philosophy
+## The Creed
 
 - **Contracts over coverage** — protect user/caller-observable behavior, not line counts
 - **ROI over ritual** — unit-test complex logic; integration-test glue; skip theater
@@ -28,14 +30,14 @@ npx skills add Gusen1453/engineering-craft --skill designing-test-cases
 
 ## How it relates to Superpowers
 
-| Layer | Superpowers | Engineering Craft |
-|-------|-------------|-------------------|
+| Layer | Superpowers | Creed |
+|-------|-------------|-------|
 | Rhythm | Red → green → refactor (TDD) | — |
 | Case design | — | What to feed, assert, mock |
 | Discipline | Rationalization tables, Iron Laws | Same pattern, applied to test quality |
 | Scope | Full delivery workflow | Deep methodology for engineering decisions |
 
-Use both: Superpowers for *when/how to run the cycle*; Engineering Craft for *whether the test is worth writing and whether it actually protects anything*.
+Use both: Superpowers for *when/how to run the cycle*; Creed for *whether the test is worth writing and whether it actually protects anything*.
 
 ## Skills library
 
