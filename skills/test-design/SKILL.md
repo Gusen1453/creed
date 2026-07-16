@@ -1,13 +1,13 @@
 ---
-name: designing-test-cases
+name: test-design
 description: Use when writing, reviewing, or modifying unit/integration tests, adding test cases, assertions, or mocks, or deciding whether a piece of code is worth testing — especially when tempted to add tests for coverage, over-mock dependencies, or write formalistic tests that just restate the implementation.
 ---
 
-# Designing Test Cases
+# Test Design
 
 ## Overview
 
-This skill answers **"what input should a test feed, what should it assert, and what should it mock"**. It does NOT cover the red-green-refactor rhythm (that is TDD).
+Answers **"what input should a test feed, what should it assert, and what should it mock"**. Does NOT cover the red-green-refactor rhythm (that is TDD).
 
 **Core principle: tests protect a behavioral contract that users/callers can observe — not implementation details, and never a coverage number.**
 A good test is a falsifiable spec of the contract; a bad test restates the code in another syntax.
@@ -35,7 +35,7 @@ After writing each test, mentally (or actually) break the logic it guards and co
 
 ## Workflow (when invoked)
 
-Announce "Using designing-test-cases to …", then **create one todo per step**:
+Announce "Using test-design to …", then **create one todo per step**:
 
 1. **Decide if it's worth testing** (§1): complexity in own logic → unit test; in dependency wiring → integration test. Not worth it → don't write.
 2. **Write a behavior list** (§2): from the contract only — "when …, it should …", including things with no dedicated branch (e.g. "don't delete my legit content").

@@ -17,7 +17,7 @@ npx skills add Gusen1453/creed
 Install specific skills:
 
 ```bash
-npx skills add Gusen1453/creed --skill designing-test-cases
+npx skills add Gusen1453/creed --skill test-design
 npx skills add Gusen1453/creed --skill commit-and-push
 ```
 
@@ -35,7 +35,7 @@ npx skills add Gusen1453/creed --skill commit-and-push
 | Layer | Superpowers | Creed |
 |-------|-------------|-------|
 | Rhythm | Red → green → refactor (TDD) | — |
-| Case design | — | What to feed, assert, mock |
+| Case design | — | `test-design` |
 | Shipping | finishing a branch / PR mechanics | `commit-and-push` with Test plan |
 | Discipline | Rationalization tables, Iron Laws | Same pattern, applied to test & ship quality |
 | Scope | Full delivery workflow | Deep methodology for engineering decisions |
@@ -48,7 +48,7 @@ Use both: Superpowers for *when/how to run the cycle*; Creed for *whether the te
 
 | Skill | Use when |
 |-------|----------|
-| **designing-test-cases** | Writing/reviewing unit or integration tests; choosing cases, assertions, mocks; resisting coverage theater |
+| **test-design** | Writing/reviewing unit or integration tests; choosing cases, assertions, mocks; resisting coverage theater |
 
 ### Shipping
 
@@ -72,7 +72,7 @@ Contributions welcome once a skill has been pressure-tested — prefer quality o
 
 ```
 skills/
-  designing-test-cases/
+  test-design/
     SKILL.md
   commit-and-push/
     SKILL.md

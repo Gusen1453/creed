@@ -10,7 +10,7 @@ description: Use when the user asks to commit, push, commit-and-push, open/draft
 **Commit in reviewable batches, push the feature branch, draft PR/MR copy with a Test plan.**
 
 Path: inspect → batch → commit → push → draft PR title + description.
-Does **not** replace test-design judgment (see designing-test-cases) or TDD rhythm (see superpowers:test-driven-development).
+Does **not** replace test-design judgment (see test-design) or TDD rhythm (see superpowers:test-driven-development).
 
 **Core principle: one commit = one reviewable intent; one PR = one shippable story with a falsifiable Test plan.**
 
@@ -20,7 +20,7 @@ Does **not** replace test-design judgment (see designing-test-cases) or TDD rhyt
 - Working tree mixes concerns that should not land in one commit
 - Need a PR Summary + **Test plan** checklist
 
-**When NOT to use:** review-only with no ship intent; only designing tests (use designing-test-cases).
+**When NOT to use:** review-only with no ship intent; only designing tests (use test-design).
 
 ## The Iron Law (non-negotiable)
 
