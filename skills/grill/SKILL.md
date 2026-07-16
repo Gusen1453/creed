@@ -71,7 +71,8 @@ Announce "Using grill to …", then **create one todo per checklist item** and c
 5. **Present design in sections** — scale length to complexity; get approval per section
 6. **Confirm shared understanding** — explicit user yes
 7. **Optional: write spec** — `docs/creed/specs/YYYY-MM-DD-<topic>-design.md` (or user-preferred path); self-review; user reviews file
-8. **Hand off** — invoke `writing-plans` (or ask user to) — **not** implementation skills
+8. **Structure pass** — invoke **solid** on non-trivial boundaries before implementation
+9. **Hand off** — invoke `writing-plans` / **tdd** (or ask user to) — **not** implementation skills without tests
 
 ## Grill loop (decision tree)
 

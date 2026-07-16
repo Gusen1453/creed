@@ -147,5 +147,6 @@ Only after green: names, duplication, helpers. Keep tests green. Don't add behav
 ## Hand-off
 
 - Case quality unclear → **test-design**
+- Boundaries / mock piles → **solid**
 - Feature shape unclear → **grill** first, then TDD
 - Ready to ship → **commit-and-push**

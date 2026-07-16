@@ -12,7 +12,7 @@ Answers **"what input should a test feed, what should it assert, and what should
 **Core principle: tests protect a behavioral contract that users/callers can observe — not implementation details, and never a coverage number.**
 A good test is a falsifiable spec of the contract; a bad test restates the code in another syntax.
 
-**REQUIRED COMPANION:** for the write-test-first rhythm, see **tdd**. This skill only governs the *design quality* of cases and assertions.
+**REQUIRED COMPANION:** for the write-test-first rhythm, see **tdd**. For module boundaries when mocks multiply, see **solid**. This skill only governs the *design quality* of cases and assertions.
 
 ## When to Use
 
