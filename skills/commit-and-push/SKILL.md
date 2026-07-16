@@ -1,26 +1,26 @@
 ---
-name: shipping-in-batches
-description: Use when committing local changes, splitting work into logical commits, writing commit messages, pushing a feature branch, or drafting a PR/MR title and description with a Test plan — especially when tempted to dump everything into one commit, skip the Test plan, or push straight to a protected branch.
+name: commit-and-push
+description: Use when the user asks to commit, push, commit-and-push, open/draft a PR/MR, or write a PR description with a Test plan — especially when changes should be split into logical commits, or when tempted to dump everything into one commit or push to a protected branch.
 ---
 
-# Shipping in Batches
+# Commit and Push
 
 ## Overview
 
-Ship local work as **reviewable commit batches**, then produce a **PR/MR title + description that always includes an actionable Test plan**.
+**Commit in reviewable batches, push the feature branch, draft PR/MR copy with a Test plan.**
 
-This skill covers the full ship path: inspect → batch → commit → push feature branch → draft PR copy.
-It does **not** replace test-design judgment (see designing-test-cases) or the TDD rhythm (see superpowers:test-driven-development).
+Path: inspect → batch → commit → push → draft PR title + description.
+Does **not** replace test-design judgment (see designing-test-cases) or TDD rhythm (see superpowers:test-driven-development).
 
 **Core principle: one commit = one reviewable intent; one PR = one shippable story with a falsifiable Test plan.**
 
 ## When to Use
 
-- User asks to commit, push, open/draft a PR/MR, or "commit and push"
-- Working tree has mixed concerns that should not land in one commit
-- Need a PR Summary + **Test plan** checklist for reviewers
+- User says commit / push / "commit and push" / draft or open a PR/MR
+- Working tree mixes concerns that should not land in one commit
+- Need a PR Summary + **Test plan** checklist
 
-**When NOT to use:** pure code review with no ship intent; only designing tests (use designing-test-cases).
+**When NOT to use:** review-only with no ship intent; only designing tests (use designing-test-cases).
 
 ## The Iron Law (non-negotiable)
 
@@ -34,7 +34,7 @@ It does **not** replace test-design judgment (see designing-test-cases) or the T
 
 ## Workflow (when invoked)
 
-Announce "Using shipping-in-batches to …", then **create one todo per step**:
+Announce "Using commit-and-push to …", then **create one todo per step**:
 
 1. **Confirm workspace + branch + upstream** (§0) — stop if protected.
 2. **Inspect and plan batches** (§1) — show the plan; execute by default unless ownership is unclear.

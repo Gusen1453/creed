@@ -4,7 +4,7 @@ A composable **software engineering creed** for coding agents — discipline ski
 
 Nothing is true until a test can falsify it. Everything is permitted — except theater.
 
-Inspired by the structure of [Superpowers](https://github.com/obra/superpowers) (Iron Laws, rationalization tables, red flags, workflows), but focused on **engineering judgment**: *what* to test, *how* to assert, *when* unit vs integration, *how* to mock without lying to yourself — and how to **ship in reviewable batches** with a real Test plan.
+Inspired by the structure of [Superpowers](https://github.com/obra/superpowers) (Iron Laws, rationalization tables, red flags, workflows), but focused on **engineering judgment**: *what* to test, *how* to assert, *when* unit vs integration, *how* to mock without lying to yourself — and how to **commit and push** with a real Test plan.
 
 [![skills.sh](https://skills.sh/b/Gusen1453/creed)](https://skills.sh/Gusen1453/creed)
 
@@ -18,7 +18,7 @@ Install specific skills:
 
 ```bash
 npx skills add Gusen1453/creed --skill designing-test-cases
-npx skills add Gusen1453/creed --skill shipping-in-batches
+npx skills add Gusen1453/creed --skill commit-and-push
 ```
 
 ## The Creed
@@ -28,7 +28,7 @@ npx skills add Gusen1453/creed --skill shipping-in-batches
 - **Falsifiable tests** — break production code and the test must go red, or delete it
 - **Evidence over claims** — assert what callers see; mutate to prove the test works
 - **Hard to test = hard to use** — listen to the test; fix design instead of piling mocks
-- **One commit, one intent** — ship in batches; every PR carries an actionable Test plan
+- **One commit, one intent** — batch commits; every PR carries an actionable Test plan
 
 ## How it relates to Superpowers
 
@@ -36,7 +36,7 @@ npx skills add Gusen1453/creed --skill shipping-in-batches
 |-------|-------------|-------|
 | Rhythm | Red → green → refactor (TDD) | — |
 | Case design | — | What to feed, assert, mock |
-| Shipping | finishing a branch / PR mechanics | Batched commits + PR copy with Test plan |
+| Shipping | finishing a branch / PR mechanics | `commit-and-push` with Test plan |
 | Discipline | Rationalization tables, Iron Laws | Same pattern, applied to test & ship quality |
 | Scope | Full delivery workflow | Deep methodology for engineering decisions |
 
@@ -54,7 +54,7 @@ Use both: Superpowers for *when/how to run the cycle*; Creed for *whether the te
 
 | Skill | Use when |
 |-------|----------|
-| **shipping-in-batches** | Splitting work into logical commits; writing commit messages; pushing a feature branch; drafting PR/MR title + description **with a Test plan** |
+| **commit-and-push** | Batch commits by intent; write commit messages; push a feature branch; draft PR/MR title + description **with a Test plan** |
 
 ### Roadmap (planned)
 
@@ -74,7 +74,7 @@ Contributions welcome once a skill has been pressure-tested — prefer quality o
 skills/
   designing-test-cases/
     SKILL.md
-  shipping-in-batches/
+  commit-and-push/
     SKILL.md
 ```
 
