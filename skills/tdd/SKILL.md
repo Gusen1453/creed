@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: Use when implementing any feature, bug fix, refactor, or behavior change — before writing production code. Enforces red-green-refactor: failing test first, watch it fail, minimal code, refactor. Complements test-design (what to assert) with the TDD rhythm (when to write code).
+description: "Use when implementing any feature, bug fix, refactor, or behavior change — before writing production code. Enforces red-green-refactor (failing test first, watch it fail, minimal code, refactor). Complements test-design (what to assert) with the TDD rhythm (when to write code)."
 ---
 
 # TDD
