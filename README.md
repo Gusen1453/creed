@@ -1,4 +1,4 @@
-﻿# Creed
+# Creed
 
 A **software-engineering judgment** suite for coding agents — not another generic “agent workflow” pack.
 
