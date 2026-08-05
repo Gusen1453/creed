@@ -1,6 +1,6 @@
 ---
 name: solid
-description: "Use when designing or reviewing module boundaries, class/API shape, dependency direction, or when tests need many mocks — apply SOLID so the design stays testable without theater. Use during grill design sections and before tdd on non-trivial structure."
+description: "Use when locking module boundaries, class/API shape, or dependency direction after a design/spec is clear; when new packages, ports, or IO edges are about to be planned; when unit tests need many mocks; or when a review/refactor shows coupling or God-class smell. Do not use as the main skill while product decisions are still open (that is grill)."
 ---
 
 # SOLID
@@ -9,18 +9,33 @@ description: "Use when designing or reviewing module boundaries, class/API shape
 
 Apply **SOLID** so behavior is easy to change and to test without a pile of mocks.
 
-**Companion skills:** shape the product with **grill**; prove behavior with **tdd** + **test-design**. This skill is only **structure and dependency direction**.
+**Companion skills:** shape the product with **grill** → **write-spec**; prove behavior with **tdd** + **test-design**. This skill is only **structure and dependency direction**.
 
 **Core principle: hard to test usually means hard to use — fix the boundaries, don't paper over them with mocks.**
 
+## Trigger modes (important)
+
+| Mode | When | What to do |
+|------|------|------------|
+| **Gate (primary)** | After **write-spec** (or waived design), before **write-plan**, if the slice adds modules / ports / IO edges | Full workflow below — announce `Using solid to …` |
+| **Rescue** | Tests need ≥3 mocks; review/PR coupling; mid-**tdd** stuck on structure | Full workflow; then return to caller |
+| **Smell only (inside grill)** | Comparing approaches that imply different boundaries | **Do not** load this skill as the main skill. Grill keeps the session; option labels may note one boundary smell ("this binds domain to SQL → mock pile later"). Formal solid waits for Gate |
+
+**Default:** if product "what/why" is still open → **grill**, not solid.
+
 ## When to Use
 
-- During **grill** design sections (architecture / components / interfaces)
-- Before **tdd** when introducing new types, packages, or dependency edges
-- Reviewing a PR that adds coupling or "needs 5 mocks to unit-test"
-- Refactors aimed at testability
+- Spec approved and the next step would invent packages, ports, or dependency arrows
+- Designing or reviewing module boundaries, class/API shape, dependency direction
+- Unit tests need many mocks to "isolate"
+- Refactors aimed at testability; PR adds coupling / God class
 
-**When NOT to use:** pure glue scripts with no domain logic; drive-by renames; user explicitly asked for a throwaway spike.
+**When NOT to use:**
+
+- Product decisions still open (use **grill**)
+- Pure glue / drive-by rename / throwaway spike
+- Tiny change with **no new boundary** (existing type, one behavior) — skip Gate; go **write-plan** or **tdd**
+- As a substitute for grilling product trade-offs
 
 ## The Iron Law (non-negotiable)
 
@@ -61,7 +76,7 @@ Apply **SOLID** so behavior is easy to change and to test without a pile of mock
 - Adapters at the edge; core stays pure/fakeable
 - **Signal:** unit test needs ≥3 mocks → likely DIP/SRP failure (see test-design)
 
-## Workflow (when invoked)
+## Workflow (when invoked — Gate or Rescue)
 
 Announce "Using solid to …", then:
 
@@ -71,7 +86,7 @@ Announce "Using solid to …", then:
 4. **ISP pass** — trim fat interfaces
 5. **DIP pass** — push IO out; inject ports
 6. **Theater check** — every new interface must have a *product* reason, not only a test reason
-7. **Hand off** — resume **grill** approval or **tdd** with **test-design**
+7. **Hand off** — **write-plan** (Gate) or resume **tdd** / **review** (Rescue). If product questions reopened → **grill**
 
 ## Red Flags
 
@@ -91,17 +106,20 @@ Announce "Using solid to …", then:
 | "Inheritance reuses code" | Inheritance couples hierarchies; compose instead. |
 | "One service interface keeps it tidy" | Fat interfaces force fake methods and ISP debt. |
 | "Mocks prove DIP" | Mocks hide DIP failure. Fewer mocks after a real port is the proof. |
+| "We're still grilling — run full solid now" | Smell in option labels only. Full solid after what/why is locked. |
 
 ## Checklist
 
+- [ ] Product what/why already locked (or Rescue mid-implementation)
 - [ ] Each unit has one clear purpose and a name without "and"
 - [ ] Dependency arrows point inward to policy, not out to IO
 - [ ] Ports are small; adapters own frameworks
 - [ ] No test-only abstractions
-- [ ] Ready for tdd/test-design without mock piles
+- [ ] Ready for write-plan or tdd/test-design without mock piles
 
 ## Hand-off
 
-- Product decisions still open → **grill**
+- Product decisions still open → **grill** → **write-spec**
+- Boundaries locked → **write-plan**
 - Implementing → **tdd** + **test-design**
-- Shipping → **commit-and-push**
+- Shipping → **review** / **commit-and-push**
