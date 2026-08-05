@@ -1,6 +1,6 @@
 ---
 name: review
-description: "Use when finishing a task, before merge/PR, or after a major change — review the diff against the plan/spec for correctness, SOLID, and test quality (no coverage theater), then fix Critical/Important issues before proceeding."
+description: "Use when finishing a task or task slice, before a merge or PR, or after a major change."
 ---
 
 # Review

@@ -1,6 +1,6 @@
 ---
 name: write-plan
-description: "Use when you have an approved design or clear requirements for multi-step work, before touching production code — break the work into bite-sized TDD tasks with exact files, interfaces, and verification steps."
+description: "Use when you have an approved design or spec, or clear requirements for multi-step work, before touching production code, or when the user asks for an implementation plan or task breakdown."
 ---
 
 # Write Plan
@@ -11,17 +11,17 @@ Turn an approved design into an **implementation plan** a forgetful agent can ex
 
 **Core principle: each task is independently testable; steps are 2–5 minutes; TDD is the default micro-cycle.**
 
-**REQUIRED UPSTREAM:** **grill** (and **solid** for non-trivial boundaries) should already have produced shared understanding. Do not plan while product decisions are still open.
+**REQUIRED UPSTREAM:** **write-spec** (or an approved written/verbal design from **grill**). **solid** for non-trivial boundaries. Do not plan while product decisions are still open.
 
 **Announce:** "Using write-plan to …"
 
 ## When to Use
 
-- After grill/spec approval, before coding
+- After **write-spec** (or waived verbal design) is approved, before coding
 - Multi-file or multi-step features
 - User asks for an implementation plan / task breakdown
 
-**When NOT to use:** single-line fix with obvious one-test cycle (go straight to **tdd**); pure exploration.
+**When NOT to use:** product still open → **grill** / **write-spec** first; single-line fix with obvious one-test cycle (go straight to **tdd**); pure exploration.
 
 ## The Iron Law
 
@@ -98,18 +98,21 @@ Inline the critical test/impl snippets when they clarify the API; don't dump nov
 | "We'll figure paths while coding" | That's how scope creeps. Lock files in the plan. |
 | "One big task is fine" | Reviewer can't reject half. Split. |
 | "Skip test steps — we'll TDD later" | Later = never. Steps include RED/GREEN. |
-| "Plan is the design doc" | Design = what/why; plan = who touches which file when. |
+| "Plan is the design doc" | Spec (`write-spec`) = what/why; plan = who touches which file when. |
+| "We'll decide product scope in the plan" | Open product calls → back to **grill**, then **write-spec**. |
 
 ## Checklist
 
-- [ ] Design approved (grill); solid considered
+- [ ] Spec approved (`write-spec`) or verbal design + waiver; solid considered
 - [ ] Plan file written with header + tasks
 - [ ] Each task: files, interfaces, RED→GREEN→commit
+- [ ] Plan does not re-open product decisions
 - [ ] User reviewed plan (or explicitly waived)
 - [ ] Ready for tdd execution
 
 ## Hand-off
 
+- Product still fuzzy → **grill** / **write-spec**
 - Execute → **tdd** + **test-design**
 - Stuck on structure → **solid**
 - Done shipping → **review** then **commit-and-push**

@@ -1,6 +1,6 @@
 ---
 name: tdd
-description: "Use when implementing any feature, bug fix, refactor, or behavior change — before writing production code. Enforces red-green-refactor (failing test first, watch it fail, minimal code, refactor). Complements test-design (what to assert) with the TDD rhythm (when to write code)."
+description: "Use when implementing any feature, bug fix, refactor, or behavior change, before writing production code."
 ---
 
 # TDD
@@ -148,5 +148,5 @@ Only after green: names, duplication, helpers. Keep tests green. Don't add behav
 
 - Case quality unclear → **test-design**
 - Boundaries / mock piles → **solid**
-- Feature shape unclear → **grill** first, then TDD
+- Feature shape unclear → **grill** → **write-spec** first, then TDD
 - Ready to ship → **commit-and-push**

@@ -1,6 +1,6 @@
 ---
 name: debug
-description: "Use when hitting a bug, test failure, unexpected behavior, or about to claim something is fixed — find root cause with evidence before changing code, then prove the fix with fresh verification (and a failing regression test via tdd)."
+description: "Use when hitting a bug, a test or CI failure, unexpected behavior, or when about to claim something is fixed and the root cause is not yet proven with evidence."
 ---
 
 # Debug
@@ -19,7 +19,7 @@ Fuses systematic root-cause debugging with **verification-before-completion**.
 - Especially under time pressure ("just one quick fix")
 - Before claiming "done" / "passing" / "fixed"
 
-**When NOT to use:** pure greenfield feature with no failure (use **grill** / **write-plan** / **tdd**).
+**When NOT to use:** pure greenfield feature with no failure (use **grill** / **write-spec** / **write-plan** / **tdd**).
 
 ## The Iron Law
 
