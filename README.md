@@ -19,7 +19,7 @@ Use **both** if you want. Creed’s edge is *closer to real software engineering
 | **2. Contract tests, not mirror tests** | `expected = prodLogic(input)`; assert only mock call counts | `test-design` + `tdd` — hand-written expected; mutation: break code → test must go red |
 | **3. SOLID before mocks** | “Hard to test → mock harder” | `solid` — ≥3 mocks is a design smell; ports/adapters, not fake interfaces for tests only |
 | **4. Ship gate = executable Test plan** | PR body = last commit message | `commit-and-push` + `review` — mandatory `## Test plan` checklist mapped to *this* diff’s risks |
-| **5. Decisions vs facts** | Ask the human how their own repo works; stay “neutral” on choices | `grill` — look up facts; one decision at a time; **every option list marks `Recommended:`** (Cursor AskQuestion) |
+| **5. Decisions vs facts** | Ask the human how their own repo works; stay “neutral” on choices | `grill` + `write-spec` — look up facts; recommend with user-visible upside/cost; lock what/why in a scenario-driven spec |
 
 **Superpowers remains better at:** multi-harness install, git worktrees, subagent orchestration, long autonomous execution.  
 **Creed remains better at:** test ROI, design-for-testability, anti-formalism, PR proof, opinionated engineering choices.
@@ -39,10 +39,12 @@ npx skills add Gusen1453/creed
 
 ```
 using-creed
-  → grill → solid → write-plan
+  → grill → write-spec → solid? → write-plan
   → tdd (+ test-design)
   → debug? → review → commit-and-push
 ```
+
+`solid?` = only when the slice adds modules / ports / IO edges.
 
 ## Skills library
 
@@ -56,9 +58,10 @@ using-creed
 
 | Skill | Use when |
 |-------|----------|
-| **grill** | Align on design; one question at a time; AskQuestion + `Recommended:` |
-| **solid** | Boundaries, DIP/SRP; fix “too many mocks” with structure |
-| **write-plan** | Approved design → bite-sized TDD tasks with exact files |
+| **grill** | Align on design; one question at a time; recommend with user-visible upside/cost |
+| **write-spec** | Approved design → scenario-driven product spec (what/why; mentoring-friendly) |
+| **solid** | After spec (or mid-dev): lock boundaries / fix mock piles; not the main skill while grilling product |
+| **write-plan** | Approved spec → bite-sized TDD tasks with exact files |
 
 ### Testing
 
@@ -92,8 +95,9 @@ using-creed
 | Superpowers | Creed analogue | Creed-only depth |
 |-------------|----------------|------------------|
 | using-superpowers | using-creed | Five SE moats |
-| brainstorming | grill | Recommended options + fact/decision split |
-| writing-plans | write-plan | Tied to solid + test-design steps |
+| brainstorming | grill | Recommended options + user-visible trade-offs + fact/decision split |
+| — | **write-spec** | Scenario-driven what/why before the implementation plan |
+| writing-plans | write-plan | Tied to write-spec + solid + test-design steps |
 | test-driven-development | tdd | Requires test-design (economics + mutation) |
 | — | **test-design** | Case design / mock ROI |
 | — | **solid** | First-class SOLID |
