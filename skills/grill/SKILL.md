@@ -64,9 +64,9 @@ Say the felt outcome and the mechanism side by side. If you can't name the mecha
 
 Every task lands on one value axis; options state **that axis's felt value + the mechanism + the cost**. The tables and examples above are the default **product axis** (a builder who lives in their own product). Two more axes cover internal engineering work:
 
-- **系统轴** — reliability, latency, ops cost, observability:
+- **System axis** — reliability, latency, ops cost, observability:
   "Batch prefetch the association tables: 40× fewer DB round-trips for the batch, at a batch memory peak"
-- **数据轴** — correctness, idempotency, freshness:
+- **Data axis** — correctness, idempotency, freshness:
   "Idempotency marker: re-runs can't duplicate vectors in the vector DB, at one status field + one update"
 
 Announce the axis in the decision preview so the user knows which vocabulary to expect.
@@ -117,13 +117,13 @@ Tiny change with no product ambiguity: user may waive the written spec; still ge
 
 Before question 1, show the whole list once — no answers, just the shape:
 
-> This change needs 4 calls: ① idempotency ② Redis fallback ③ batch split ④ acceptance — one at a time, each with a recommendation. (value axis: 数据/系统)
+> This change needs 4 calls: ① idempotency ② Redis fallback ③ batch split ④ acceptance — one at a time, each with a recommendation. (value axis: data/system)
 
 After the last checklist question, close with a real re-scan, not a scripted "anything else?":
 
 > Checklist done — let me re-scan: anything else worth asking?
 
-Then actually look again: soft constraints ("尽量" style), acceptance, the user's own assertions, downstream consumers. A new question found here is the mechanism working, not a failure to enumerate.
+Then actually look again: soft constraints (preference-style wording), acceptance, the user's own assertions, downstream consumers. A new question found here is the mechanism working, not a failure to enumerate.
 
 ## Grill loop (decision tree)
 

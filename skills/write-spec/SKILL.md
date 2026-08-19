@@ -18,7 +18,7 @@ Turn an **approved design** into a durable **product spec** that a new teammate 
 ## When to Use
 
 - After grill approval, before **write-plan**
-- User asks for a design doc / spec / PRD-lite /「写一下规格」
+- User asks for a design doc / spec / PRD-lite
 - Handing work to another person or agent who was not in the grill
 
 **When NOT to use:** pure bugfix with known fix; one-line change with no product ambiguity; user already has an approved written spec and only wants **write-plan**.
@@ -38,7 +38,7 @@ Write for one reader who is both the engineer and a daily user of what they buil
 
 - **Pair value with mechanism** — say what the experience feels like *and* name the tech choice behind it, so they keep control of both product and code
 - Lead with **perceivable upside / downside / cost**, but never drop the mechanism into vague "user speak"
-- Prefer 「用户会看到什么 + 靠什么机制实现」 over 「系统应具备可插拔的…」
+- Prefer "what the user sees + the mechanism that delivers it" over "the system should have pluggable…"
 - Name the **trade-off you chose** and what you **explicitly skip** this round
 - Scenarios carry the product story (§2); "How we'll build it" (§7) carries the precise tech — keep them distinct, keep both honest
 
@@ -105,7 +105,7 @@ spec with it so a newcomer doesn't re-read the repo. Skip this section for green
 **Out (this round):**
 - … — why skipped: …
 
-## 4. Decision log (传帮带)
+## 4. Decision log (mentoring)
 
 | Decision | Chose | Rejected | Why (user/business impact) |
 |----------|-------|----------|----------------------------|
@@ -132,7 +132,7 @@ spec with it so a newcomer doesn't re-read the repo. Skip this section for green
 ## Writing rules
 
 1. **Scenario before mechanism** — if you cannot write a Who/When/Does/Sees case, you do not understand the requirement yet → **grill**
-2. **Replace adjectives with cases** — 「灵活 / 完善 / 高性能」→ concrete limits and outcomes
+2. **Replace adjectives with cases** — "flexible / polished / high-performance" → concrete limits and outcomes
 3. **User-perceivable trade-offs** — when comparing options in the decision log, state what the *user* gains or loses, then the engineering cost
 4. **Mentoring value** — decision log + Out-of-scope are mandatory; they teach judgment, not just the happy path
 5. **One shippable slice** — if the doc covers two independent products, split into two specs
@@ -147,7 +147,7 @@ spec with it so a newcomer doesn't re-read the repo. Skip this section for green
 
 ## Self-review (before user review)
 
-1. No TBD / "视情况" left as product decisions
+1. No TBD / "it depends" left as product decisions
 2. No contradictions between scenarios and acceptance
 3. No implementation plan leaked (paths, RED/GREEN, commits)
 4. A new hire could explain the feature from §0–§5 alone

@@ -52,7 +52,7 @@ using-creed
 
 | Situation | Skill |
 |-----------|--------|
-| 改造/重构存量代码 — task names methods/classes/tables to change or reference | **explore** → grill → write-spec → … |
+| Refactor / rework existing code — task names methods/classes/tables to change or reference | **explore** → grill → write-spec → … |
 | New feature / behavior change / architecture / "grill me" / brainstorm — before any code | **grill** |
 | Approved design → durable product spec (scenarios, scope, decision log) | **write-spec** |
 | After spec: lock packages/ports/dependency arrows; or mock piles / coupling smell | **solid** |
@@ -78,31 +78,31 @@ Common pairings:
 Three blocks; the agent explores the rest and grills only what the repo can't answer:
 
 ```
-任务: <一句话意图,点名要改的方法/类>
-硬约束: <数字、策略、红线——只有你知道的>
-探索线索(可选): <想让它参考的类/方法名;它自己会读,你无需描述>
-验收(可选): <一句"怎么算成功"的演示语言>
+Task: <one-line intent, name the method/class to change>
+Hard constraints: <numbers, policies, red lines — only you know these>
+Explore hints (optional): <class/method names to reference; the agent reads them itself — no need to describe>
+Acceptance (optional): <one line of demo language: how we'll know it works>
 
-其余细节由你探索 repo 后决定,判断题走 grill 问我。跑 /grill
+Let the agent explore the repo for the rest; grill it only on judgment calls. Run /grill
 ```
 
-Rules for the 硬约束 slot:
+Rules for the hard-constraints slot:
 
-- "尽量"类措辞 = **优先级,不是禁令**。若它和 repo 现实冲突(如重跑幂等),explore 在事实清单里标记冲突,grill 把它摆成一道取舍题由你拍板。
-- 不要写 SQL、字段名、方法签名、组装细节——这些都是 repo 可回答的事实,写了反而可能和代码不符。
+- Soft-constraint wording ("try not to" / preference style) = **priority, not a prohibition**. If it conflicts with repo reality (e.g., re-run idempotency), explore flags the conflict in the fact checklist and grill turns it into a trade-off question for you to decide.
+- Don't write SQL, field names, method signatures, or assembly details — those are repo-answerable facts; writing them risks contradicting the code.
 
-Example (before → after) — 同一任务:约 600 字 → 约 150 字。删掉的全是 repo 可回答的部分(SQL、字段名、方法签名、组装细节);保留的全是只有人知道的(并发数、重试策略、红线):
+Example (before → after) — the same task: ~600 chars → ~150 chars. Everything cut was repo-answerable (SQL, field names, method signatures, assembly details); everything kept is human-only (concurrency, retry policy, red lines):
 
 ```
-Before: 6 步流程 + 3 段 SQL + 线程池/重试/Redis 细节 + "响应格式需要为
-List<ImageEmbeddingUpdateRequest.ContentItem> batchContentList"(对代码的猜测)
+Before: 6-step flow + 3 SQL snippets + thread-pool/retry/Redis details + "the response format needs to be
+List<ImageEmbeddingUpdateRequest.ContentItem> batchContentList" (a guess about the code)
 
-After: 改造 RagRecoverPushJob#imageRecover,把 dp_research_report_structure_info
-(data_source in ('2','3'), id 111~2000)重推向量库。
-硬约束:倒序分页每批 1000 条;40 并发线程池;失败重试一次,再失败进 Redis 等重试;
-尽量不 update dp_research_report_image_search。
-探索线索:SecAnnouncementThreadPoolManager、PushImageChunkService#buildReportChunkDto/#sendListToRag。
-其余细节由你探索 repo 后决定,判断题走 grill 问我。跑 /grill
+After: Refactor RagRecoverPushJob#imageRecover to re-push dp_research_report_structure_info
+(data_source in ('2','3'), id 111~2000) to the vector DB.
+Hard constraints: descending pagination, 1000 per batch; 40-concurrency thread pool; on push failure retry
+once, then enqueue to Redis for retry; try not to update dp_research_report_image_search.
+Explore hints: SecAnnouncementThreadPoolManager, PushImageChunkService#buildReportChunkDto/#sendListToRag.
+Let the agent explore the repo for the rest; grill it only on judgment calls. Run /grill
 ```
 
 ## Checklist

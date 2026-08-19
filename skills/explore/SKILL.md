@@ -17,15 +17,15 @@ The main agent dispatches a background **explore subagent** and tells it to load
 
 ## When to Use
 
-- Task names code to change or reference: "改造 X", "参考 Y", "沿用 Z 的模式"
-- The prompt contains technical assertions to verify (signatures, fields, SQL, types, "尽量不 update" style constraints)
+- Task names code to change or reference: "refactor X", "model after Y", "reuse Z's pattern"
+- The prompt contains technical assertions to verify (signatures, fields, SQL, types, "try not to update" style constraints)
 - Refactor / legacy rework / reuse, where guessing the code shape would waste grill questions
 
 **When NOT to use:** brand-new code with no anchors; bugfix with known root cause (debug); mechanical rename.
 
-## Trigger threshold (锚点即触发, 宽度定派发)
+## Trigger threshold (anchors trigger, width decides dispatch)
 
-- **Trigger:** any task that names existing code — a method/class to change, a table/SQL, or a "参考/沿用" pointer — gets an explore pass. No threshold below that.
+- **Trigger:** any task that names existing code — a method/class to change, a table/SQL, or a "reuse / model-after" pointer — gets an explore pass. No threshold below that.
 - **Dispatch width:** one anchor, obvious chain (≤ 1 method + 1 table) → the main agent reads inline. Wide chain (multiple tables + referenced classes + data consumers) → dispatch a background subagent.
 - The threshold is a rule, not a judgment call — decide by counting anchors, then dispatch.
 
@@ -38,10 +38,10 @@ Deliver facts only. If the repo can't answer it, it's a blocker — never guess.
 
 ## Workflow
 
-1. **Parse anchors** — every named method/class/table/config/SQL + every "参考/沿用" pointer.
+1. **Parse anchors** — every named method/class/table/config/SQL + every "reuse / model-after" pointer.
 2. **Read the full chain** — target method → referenced classes → Mappers/entities/XML → the data's consumers (e.g., existing Redis retry consumers) → relevant config. Read implementations, not just signatures, when behavior matters.
 3. **Verify assertions** — each technical claim in the prompt → ✓ consistent / ✗ contradicts, with file:line evidence.
-4. **Map conflicts** — constraint vs repo reality (e.g., "尽量不 update" vs no status field → re-run duplicates).
+4. **Map conflicts** — constraint vs repo reality (e.g., "try not to update" vs no status field → re-run duplicates).
 5. **Deliver the fact checklist** — the format below, nothing else. Compact: it lives in session history, grill consumes it directly, and write-spec folds it into the Current state section.
 
 ## Deliverable: Fact Checklist
