@@ -39,10 +39,12 @@ npx skills add Gusen1453/creed
 
 ```
 using-creed
-  → grill → write-spec → solid? → write-plan
+  → explore? → grill → write-spec → solid? → write-plan
   → tdd (+ test-design)
   → debug? → review → commit-and-push
 ```
+
+`explore?` = when the task modifies or references existing code (refactor / legacy / reuse); harvest repo facts + verify the user's claims before grill.
 
 `solid?` = only when the slice adds modules / ports / IO edges.
 
@@ -58,6 +60,7 @@ using-creed
 
 | Skill | Use when |
 |-------|----------|
+| **explore** | Task modifies/references existing code — harvest repo facts, verify the user's technical claims, deliver a fact checklist so grill asks only judgment calls |
 | **grill** | Align on design; one question at a time; recommend with user-visible upside/cost |
 | **write-spec** | Approved design → scenario-driven product spec (what/why; mentoring-friendly) |
 | **solid** | After spec (or mid-dev): lock boundaries / fix mock piles; not the main skill while grilling product |
@@ -96,6 +99,7 @@ using-creed
 |-------------|----------------|------------------|
 | using-superpowers | using-creed | Five SE moats |
 | brainstorming | grill | Recommended options + user-visible trade-offs + fact/decision split |
+| — | **explore** | Fact harvesting + assertion verification before grill (refactor/legacy) |
 | — | **write-spec** | Scenario-driven what/why before the implementation plan |
 | writing-plans | write-plan | Tied to write-spec + solid + test-design steps |
 | test-driven-development | tdd | Requires test-design (economics + mutation) |
