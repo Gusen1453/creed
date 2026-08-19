@@ -60,6 +60,17 @@ Never sacrifice one for the other:
 
 Say the felt outcome and the mechanism side by side. If you can't name the mechanism, you don't understand it yet — go look it up, don't hand-wave.
 
+## Value axis (pick the task's axis)
+
+Every task lands on one value axis; options state **that axis's felt value + the mechanism + the cost**. The tables and examples above are the default **product axis** (a builder who lives in their own product). Two more axes cover internal engineering work:
+
+- **系统轴** — reliability, latency, ops cost, observability:
+  "Batch prefetch the association tables: 40× fewer DB round-trips for the batch, at a batch memory peak"
+- **数据轴** — correctness, idempotency, freshness:
+  "Idempotency marker: re-runs can't duplicate vectors in the vector DB, at one status field + one update"
+
+Announce the axis in the decision preview so the user knows which vocabulary to expect.
+
 ## Cursor: AskQuestion (required when available)
 
 If the **AskQuestion** tool exists (Cursor), use it for every fixed-choice question.
@@ -92,7 +103,7 @@ Never reduce an option to a bare tech label ("sync vs async") with no felt outco
 
 Announce "Using grill to …", then **create one todo per checklist item** and complete in order:
 
-1. **Explore context** — files, docs, recent commits relevant to the idea
+1. **Explore context** — files, docs, recent commits relevant to the idea (if an explore pass already ran, consume its fact checklist instead of re-reading the repo)
 2. **Scope check** — multiple independent products? Split; grill only the first shippable slice
 3. **Grill the decision tree** — one question at a time (§Grill loop)
 4. **Propose 2–3 approaches** — value-tied-to-mechanism trade-offs + marked recommendation; if approaches imply different boundaries, note one **solid smell** in the option (do **not** switch to full **solid** yet)
@@ -101,6 +112,18 @@ Announce "Using grill to …", then **create one todo per checklist item** and c
 7. **Hand off** — **write-spec** (unless waived) → then **solid** only if new modules/ports/IO edges → **write-plan** → **tdd**. Grill does not run the full solid checklist itself.
 
 Tiny change with no product ambiguity: user may waive the written spec; still get a short verbal design + approval, then **write-plan** or **tdd** (skip **solid** if no new boundary).
+
+## Decision preview
+
+Before question 1, show the whole list once — no answers, just the shape:
+
+> This change needs 4 calls: ① idempotency ② Redis fallback ③ batch split ④ acceptance — one at a time, each with a recommendation. (value axis: 数据/系统)
+
+After the last checklist question, close with a real re-scan, not a scripted "anything else?":
+
+> Checklist done — let me re-scan: anything else worth asking?
+
+Then actually look again: soft constraints ("尽量" style), acceptance, the user's own assertions, downstream consumers. A new question found here is the mechanism working, not a failure to enumerate.
 
 ## Grill loop (decision tree)
 
@@ -182,12 +205,14 @@ After approval:
 - Writing code or calling build skills before explicit approval
 - Asking the user for something visible in the repo
 - Neutral "which do you prefer?" with no stance
+- Starting questions without a decision preview, or closing without the re-scan
 
 ## Checklist
 
 - [ ] Context explored; facts looked up
 - [ ] Scope fits one grill session (or decomposed)
 - [ ] One question at a time; AskQuestion used in Cursor when available
+- [ ] Decision preview shown before Q1; closing re-scan after the checklist
 - [ ] Every option has an A/B/C/D… letter marker; exactly one `Recommended:`
 - [ ] Each option pairs product outcome with the precise mechanism/tech choice
 - [ ] 2–3 approaches compared as value-tied-to-mechanism briefs
