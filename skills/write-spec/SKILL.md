@@ -53,7 +53,7 @@ Write for one reader who is both the engineer and a daily user of what they buil
 
 ## Workflow
 
-1. **Confirm source** — approved grill summary or user-supplied design; unresolved decisions → back to **grill**
+1. **Confirm source** — approved grill summary or user-supplied design; unresolved decisions → back to **grill**; if explore produced a fact checklist, fold it into §0 Current state
 2. **Pick path** — default `docs/creed/specs/YYYY-MM-DD-<topic>-design.md` (user path overrides)
 3. **Write the spec** — use the template below; scale length to complexity
 4. **Self-review** — checklist at bottom
@@ -68,6 +68,15 @@ Write for one reader who is both the engineer and a daily user of what they buil
 **Status:** Draft | Approved
 **Date:** YYYY-MM-DD
 **Owner:** <who decides product calls>
+
+## 0. Current state (from explore) — refactor/legacy only
+
+When explore produced a fact checklist (the task modified existing code), open the
+spec with it so a newcomer doesn't re-read the repo. Skip this section for greenfield.
+
+- **Anchors:** <methods/classes/tables read, current behavior>
+- **Assertion check:** <user's claims → ✓/✗ with evidence>
+- **Conflicts:** <constraint vs repo reality, resolved by the decisions below>
 
 ## 1. One-liner (board slide)
 
@@ -141,7 +150,7 @@ Write for one reader who is both the engineer and a daily user of what they buil
 1. No TBD / "视情况" left as product decisions
 2. No contradictions between scenarios and acceptance
 3. No implementation plan leaked (paths, RED/GREEN, commits)
-4. A new hire could explain the feature from §1–§5 alone
+4. A new hire could explain the feature from §0–§5 alone
 5. Every In-scope item maps to at least one scenario
 
 ## Rationalization Table
