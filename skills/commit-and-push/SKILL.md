@@ -12,7 +12,9 @@ description: Use when the user asks to commit, push, commit-and-push, open/draft
 Path: inspect → batch → commit → push → draft PR title + description.
 Does **not** replace test-design judgment (see test-design) or TDD rhythm (see superpowers:test-driven-development).
 
-**Core principle: one commit = one reviewable intent; one PR = one shippable story with a falsifiable Test plan.**
+**Core principle: one commit = one reviewable intent with a Conventional-Compliant, non-obscured message; one PR = one shippable story with a falsifiable Test plan.**
+
+**Core rules on copy:** commit/PR message format is a hard gate — Conventional Commits, `type(scope): subject`, type from the standard enum, scope from repo convention; **language is flexible** (中文 / English), following the user's own phrasing/register, not translated into an alien voice.
 
 ## When to Use
 
@@ -28,6 +30,7 @@ Does **not** replace test-design judgment (see test-design) or TDD rhythm (see s
 1. NEVER commit or push to a protected branch (default: main, master, pro, test — plus any the repo declares).
 2. NEVER mix unrelated intents in one commit.
 3. EVERY PR/MR description MUST include an actionable "## Test plan" checklist.
+4. EVERY commit message MUST be Conventional-Compliant (`type(scope): subject`) and non-obscured (below); language is free (中文/English) but the format is not.
 ```
 
 **Violating the letter is violating the spirit.** "Just one quick commit on test", "I'll add the Test plan later", and "force push is fine this once" do not count.
@@ -38,10 +41,11 @@ Announce "Using commit-and-push to …", then **create one todo per step**:
 
 1. **Confirm workspace + branch + upstream** (§0) — stop if protected.
 2. **Inspect and plan batches** (§1) — show the plan; execute by default unless ownership is unclear.
-3. **Commit each batch** (§2) — stage only that batch; message answers *why*.
-4. **Push the feature branch** (§3) — never force to protected branches; ask before any force.
-5. **Draft PR/MR title + description with Test plan** (§4) — from *all* commits vs baseline, not only HEAD.
-6. **Report** (§5) — paths, commits, push result, paste-ready PR copy, leftovers.
+3. **Sample the user's voice** (§1.5) — from this feature's conversation, not git history.
+4. **Commit each batch** (§2) — stage only that batch; message answers *why*, Conventional + non-obscured.
+5. **Push the feature branch** (§3) — never force to protected branches; ask before any force.
+6. **Draft PR/MR title + description with Test plan** (§4) — from *all* commits vs baseline, not only HEAD.
+7. **Report** (§5) — paths, commits, push result, paste-ready PR copy, leftovers.
 
 Do **not** create the PR/MR via API/`gh pr create` unless the user explicitly asks to create it.
 
@@ -94,6 +98,30 @@ Split by **logical units** (each batch: one intent, independently reviewable):
 
 Briefly list the batch plan (files + proposed `type(scope)`). **Execute by default**; ask only when batch ownership is ambiguous.
 
+## §1.5 Sample the user's voice (before writing any copy)
+
+Before drafting commit messages or PR copy, **listen to how the user talks about this change** — their register, not the repo's history.
+
+**Source priority (do not invert):**
+
+1. **This conversation, this feature's whole lifetime** — every round where they described the work, corrected the wording, or set the direction (not just the last turn). Short, direct, says the outcome; concrete nouns and verbs.
+2. **Cross-session memory file** (if one exists) — a settled register from prior work on this repo.
+3. **Fallback: the hard rules below** — only when neither exists (e.g. user just said "commit this").
+
+**Why not `git log --author`:** in AI-collaborator repos the history is mostly AI-written long clauses (e.g. this repo's `fix(skills): make skill copy English-only Translate…`); sampling it trains the obscurity right back in.
+
+**What "like the user" means — and what it does NOT:**
+- It does **not** mean inventing a persona; with no signal, stay neutral and stable (rule 3).
+- It does **not** override hard rules — the Conventional format and the non-obscuring checklist below beat any sampled phrasing.
+
+### Non-obscuring checklist (hard, applies to every message)
+
+- Subject ≤ ~50 chars of substance; one line
+- Start the summary with the **outcome/result verb** (add, ship, route, expose, fix, drop…), not an adjective stack
+- No piled modifiers; no vague verbs ("improve", "better", "make nicer"); no file-name dump
+- `type` = primary user-visible intent (don't stack every type)
+- Match the repo's recent commit style (language included — 中文 or English as the user writes)
+
 ## §2 Commit each batch
 
 Re-check: branch and upstream are not protected. Else **STOP**.
@@ -102,9 +130,10 @@ For each batch, in order:
 
 1. `git add` **only** that batch's files
 2. `git diff --cached` to verify
-3. Write the message (prefer Conventional Commits: `feat(scope): …`):
-   - 1–2 sentences on **why / outcome**, not a file dump
-   - Match the repo's recent commit style (language included)
+3. Write the message (Conventional Commits, **hard gate** — `type(scope): subject`, type from the standard enum, scope from repo convention):
+   - Subject: one line, ≤ ~50 chars, outcome verb first, language as the user writes (中文 or English — no forced translation)
+   - Body (optional): 1–2 sentences on **why / outcome**, not a file dump
+   - Run the non-obscuring checklist from §1.5 before committing
 4. Commit (no `--no-verify`, no `--no-gpg-sign`, no `git config` changes unless the user explicitly asks)
 
 ```bash
@@ -124,6 +153,12 @@ feat(scope): short statement of intent
 
 Optional body for context reviewers need.
 "@
+```
+
+Chinese example — same shape, user's own language:
+
+```bash
+git commit -m "feat(scope): 导出前新增类型校验，防止空值落库"
 ```
 
 5. `git status`. If a hook fails: **fix and make a NEW commit**. Do not amend unless all amend-safety conditions hold (user asked, or hook auto-modified files after a commit *you* created in this conversation; HEAD not pushed).
@@ -162,9 +197,10 @@ git diff --stat origin/test...HEAD
 
 ### Title
 
-- One line, prefer `type(scope): summary`
+- One line, `type(scope): summary` — **Conventional, hard gate** (type from standard enum, scope from repo convention)
 - `type` = primary user-visible intent (don't stack every type)
-- Summary = **why / outcome**, ~50 chars of substance
+- Summary = **why / outcome**, ≤ ~50 chars of substance, outcome verb first, no stacked modifiers
+- Language as the user writes (中文 / English) — use the §1.5 voice sample
 
 ### Description template (always)
 
@@ -174,13 +210,21 @@ git diff --stat origin/test...HEAD
 - <optional: key tradeoff>
 
 ## Test plan
-- [ ] <executable check tied to a real risk in this diff>
-- [ ] <another concrete path: API, config, regression, docs link, …>
+
+### Automated (ran before commit)
+- [x] <command/check already executed before this commit — evidence, not a to-do>
+- [x] <another command that actually ran>
+
+### Acceptance (user/product)
+- [ ] <manual step for a human/PM to verify — what they should see/feel>
+- [ ] <another scenario to demo>
 ```
 
 **Test plan rules:**
 
 - Checklist items must be **doable** by a reviewer (command, URL, scenario) — not "run the tests" with no target
+- **Two blocks, one intent:** `Automated (ran before commit)` lists scripts that **actually ran** (checked, with the command); `Acceptance (user/product)` lists open manual steps for a human to verify — what they should see/feel
+- **Honesty rule:** nothing goes in the Automated block unless it was actually run before commit. A check that didn't run either stays unmarked or moves to Acceptance as "待验证 / to verify"
 - Map items to real risks in *this* diff (routing, config, compatibility, prompts, migrations, …)
 - Prefer behavior checks over "coverage went up"
 
@@ -202,7 +246,12 @@ If the remote prints a "create merge request" URL after push, include it in the 
 ...
 
 ## Test plan
-...
+
+### Automated (ran before commit)
+- [x] ...
+
+### Acceptance (user/product)
+- [ ] ...
 ```
 
 ## §5 Final report
@@ -225,6 +274,8 @@ If the remote prints a "create merge request" URL after push, include it in the 
 | "Hook is annoying — skip with --no-verify" | Fix the cause. Skipping hooks is not shipping. |
 | "Amend the failed hook commit" | New commit after fix, unless amend-safety rules all hold. |
 | "PR description = last commit message" | PR covers the whole `baseline..HEAD` story. |
+| "English-only commits are the only right way" | Format is hard; language is free. Match the user's register (中文/English). |
+| "Use git history for the user's voice" | History is mostly AI-written. Sample the live conversation instead. |
 | "Include the .env so it works on CI" | Secrets never get committed. Warn and skip. |
 
 ## Red Flags — stop immediately
@@ -232,6 +283,7 @@ If the remote prints a "create merge request" URL after push, include it in the 
 - About to commit/push on `main` / `master` / `pro` / `test` (or repo-protected equivalents)
 - Staging unrelated features/fixes/docs in one commit "to be done"
 - PR body with no `## Test plan` or only vague "test it"
+- Automated block that claims a script ran when it did not
 - Using `--force` / `--no-verify` without an explicit user request
 - Creating a PR/MR via tooling when the user only asked for commit/push copy
 - Commit message that only lists file names
@@ -242,8 +294,8 @@ If the remote prints a "create merge request" URL after push, include it in the 
 
 - [ ] Not on a protected branch; upstream not protected
 - [ ] Batches are single-intent; plan shown
-- [ ] Each commit message states why; no secrets staged
+- [ ] Each commit message is Conventional-Compliant + non-obscured (§1.5); language follows user's register; no secrets staged
 - [ ] Pushed to `origin <feature-branch>` only
 - [ ] PR title + Summary cover **all** commits vs baseline
-- [ ] `## Test plan` has concrete, checkable items
+- [ ] `## Test plan` has Automated (ran, checked) + Acceptance (open manual) blocks, both concrete
 - [ ] Did not auto-create PR/MR unless asked
