@@ -78,7 +78,7 @@ using-creed
 | Skill | Use when |
 |-------|----------|
 | **debug** | Root cause + evidence before fixes; verify before “fixed” |
-| **review** | Diff vs plan; SOLID + test quality + Test-plan readiness |
+| **review** | Diff vs plan; SOLID + test quality + Test-plan readiness; also reviews spec/plan/solid as own objects (推演表 claim→case falsification) |
 
 ### Shipping
 
