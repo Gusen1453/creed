@@ -61,6 +61,7 @@ using-creed
 | Writing or reviewing tests: worth testing? unit vs integration? what to assert / mock? | **test-design** |
 | Bug, test/CI failure, unexpected behavior, or about to claim "fixed" | **debug** |
 | Finished a task slice / before opening or updating a PR | **review** |
+| Review a spec / plan / structure decision as its own object (not code) | **review** (routes to `references/{spec,plan,solid}.md`) |
 | User asks to commit / push / open a PR (PR needs a Test plan) | **commit-and-push** |
 
 Common pairings:
