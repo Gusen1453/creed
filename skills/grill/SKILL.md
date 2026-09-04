@@ -60,6 +60,15 @@ Never sacrifice one for the other:
 
 Say the felt outcome and the mechanism side by side. If you can't name the mechanism, you don't understand it yet — go look it up, don't hand-wave.
 
+**Speak to an adult professional, not a machine, not a child.** The user is a senior builder — jargon soup reads as evasion, baby-talk reads as disrespect. Two grammar checks before every option:
+
+| Outreach trap | What it reads like | Correct move |
+|---------------|--------------------|--------------|
+| Jargon soup — a wall of precise terms, no felt outcome attached | "I'm hiding that I don't understand it" | Name the mechanism, then in the same breath what it does for them |
+| Dead metaphor — an analogy that flatters understanding but doesn't transfer it ("it's like amazon's recommendation engine") | "I'm trying to sound smart instead of saying it" | A metaphor earns its place only if it maps 1:1 to the mechanism — else say the thing directly |
+| Explaining the obvious ("think of a queue as a line of people") | "I think you're a beginner" | State what's new, skip what they clearly know; precision is a form of respect |
+| Pure user speak ("simpler, faster") with the mechanism hidden | "I don't trust you with the tech" | Both, in one breath — they can see the trade-offs and stay in control |
+
 ## Value axis (pick the task's axis)
 
 Every task lands on one value axis; options state **that axis's felt value + the mechanism + the cost**. The tables and examples above are the default **product axis** (a builder who lives in their own product). Two more axes cover internal engineering work:
@@ -194,6 +203,60 @@ After approval:
 | "Just name the tech — they're technical" | They still shouldn't decode jargon to feel the product impact. Pair value with mechanism. |
 | "Skip write-spec — plan is enough" | Plan churns; spec teaches what/why. Default to write-spec. |
 | "AskQuestion is optional chrome" | In Cursor, fixed-choice moments use AskQuestion when the tool exists. |
+| "It's getting complex because the problem is hard" | Hard problems deserve depth, not sprawl. Depth = new info per round; sprawl = mechanism with no user-visible payoff. Run the loop-breaker on the combination. |
+| "One more option just in case / let's cover it" | A new option must map to user-visible value or it's noise. Loop-breaker, Family 1. |
+
+## Loop-breaker: stop, re-anchor, recompose
+
+The grill loop asks the next question in the tree. This section fires when the **shape** of the conversation is wrong — no single option is wrong, but the branch is, or nobody is deciding.
+
+**The breaker is a warning, not a verdict.** Grill's core rule — humans own decisions — applies to the meta-decision too. When the signals fire, *detect and recommend*; the user decides whether to actually step out. Offer the exit as a marked choice; never drag them off the branch unilaterally. They may be carrying a constraint you can't see — a hard requirement, an external dependency, load-bearing complexity.
+
+When the breaker fires, lead with a **necessity statement**: name in concrete terms what staying on this branch keeps costing — the decision that keeps getting deferred, the coupling each new option adds, the turn-budget already churned — not a generic "it's getting complex." Then give the **core goal as a reconstruction, not a quote of the user's original words**: the user's raw framing is often part of the tangle that fed the loop (half-stated constraints, contradictory priorities), so say what you now believe the goal actually is, flag which parts you forged from confirmed facts, and invite correction. Humans still own it — this is your proposal, not ground truth. Same voice rules apply here: the necessity and the goal are concrete, in plain adult language — no jargon pile-up, no "it's like…" substitutions — state exactly what the user is losing and what you believe the goal now is. Then ask:
+
+```
+A) Recommended: Step out — recovers <goal> and stops <cost>; first MECE cut follows.
+B) Stay on this branch — I may be missing a constraint you're carrying.
+C) Something else (I will type it)
+```
+
+Two failure families, each with its own remedy. They are not the same fix. The remedies below describe what **step-out** means — run them only after the user picks A.
+
+### Family 1 — the branch is structurally wrong → recompose, don't simplify
+
+Fire when **any two** of these appear together:
+
+- Every new option adds mechanism with no user-visible outcome it maps to
+- Boundary conditions multiply, then collide — an answer breaks an earlier locked choice
+- The mechanism can no longer be named in one breath — and lookup didn't fix it (that's this signal, not a reading gap)
+- Correctness is probabilistic: the design depends on an LLM/heuristic *usually* getting it right for the feature to work
+- The piece is called "stable infrastructure" but keeps evolving — every future change climbs the complexity added today
+
+If the user picks step-out:
+
+1. **Re-anchor — reconstruct, don't quote:** the core goal is what you believe it to be *after* factoring in what the user just revealed, not their raw opening sentence — users often start tangled, and the tangle is part of the loop. State the goal you've reconstructed, say what you dropped/added versus the user's words, and get explicit agreement before re-deriving. First-principles from there: the minimal thing that produces that one outcome.
+2. **MECE-clean the space:** buckets non-overlapping and exhaustive. A decision that fits no bucket is off-path; overlapping buckets are a recompose trigger.
+3. **Restore layering:** each layer refines the one above; no sibling-internal dependence; no A→B→A cycles.
+4. **Cut structure, not capability:** recompose removes arrangement, never a user outcome. If the core value truly needs the complex thing, it stays — change how it's assembled, not what the user gets.
+
+### Family 2 — the loop is spinning → re-anchor, don't brainstorm harder
+
+Fire when **any two** of these appear together:
+
+- The same decision re-arrives in new clothes twice ("we could also…" re-asks an answered point)
+- No option is wrong, so none gets picked — options differ in internal taste, not user-visible value
+- A proposal gets revised a third time instead of preferred
+
+If the user picks step-out:
+
+1. **Name the loop out loud** — "we're circling this decision" — then offer the exit as option A. The observation is the warning; the exit is their call.
+2. **Sticky vs reversible:** at near-parity in user-visible value, recommend the more reversible option. Hesitation is a cost already being paid.
+3. **Decision budget:** ask "does this next question buy new information, or re-churn the same uncertainty?" Re-churn → pick with a recommendation, move on.
+4. **Keep the re-scan honest:** a *genuinely new* question is the mechanism working; a recycled one is the loop.
+
+### Guard (so this never becomes premature-decision theater)
+
+Depth is warranted iff the decision is sticky + high-cost + each question buys new information. The breaker fires on the **combination**, never on complexity alone — and firing only raises the warning as a choice the user can reject. Never use "simplify" to dodge a hard decision's real cost — if the outcome needs it, recompose structure; don't delete the outcome. And never frame the user's "stay" as an error: it signals a constraint or value invisible to you.
 
 ## Red Flags — stop and fix
 
@@ -205,6 +268,9 @@ After approval:
 - Writing code or calling build skills before explicit approval
 - Asking the user for something visible in the repo
 - Neutral "which do you prefer?" with no stance
+- Two or more decisions circling with no new information per round
+- An answer breaks an earlier locked decision (colliding boundaries)
+- Load-bearing design assumption is probabilistic correctness (LLM judgment as the thing that makes it work)
 - Starting questions without a decision preview, or closing without the re-scan
 
 ## Checklist
@@ -215,6 +281,7 @@ After approval:
 - [ ] Decision preview shown before Q1; closing re-scan after the checklist
 - [ ] Every option has an A/B/C/D… letter marker; exactly one `Recommended:`
 - [ ] Each option pairs product outcome with the precise mechanism/tech choice
+- [ ] Loop-breaker scanned: no spinning decisions; recomposes cleanly (MECE, layered, acyclic); every option maps to a user-visible outcome
 - [ ] 2–3 approaches compared as value-tied-to-mechanism briefs
 - [ ] Design sections approved; shared understanding confirmed
 - [ ] No implementation yet; hand off to **write-spec** (or waived) → **solid?** → **write-plan**
