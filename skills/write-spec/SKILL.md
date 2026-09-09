@@ -57,8 +57,9 @@ Write for one reader who is both the engineer and a daily user of what they buil
 2. **Pick path** — default `docs/creed/specs/YYYY-MM-DD-<topic>-design.md` (user path overrides)
 3. **Write the spec** — use the template below; scale length to complexity
 4. **Self-review** — checklist at bottom
-5. **User gate** — ask them to skim before planning
-6. **Hand off** — if the slice adds modules / ports / IO edges → **solid** (Gate); else → **write-plan** → **tdd**
+5. **Review gate** — pressure-check the spec as its own object before anything locks onto it: run **review** with the `spec` rubric (`references/spec.md`); the direct upstream is the approved grill design. Fix BLOCK/Critical/Important findings here, or defer them with the user's explicit reason — never hand them downstream.
+6. **User gate** — ask them to skim before planning
+7. **Hand off** — if the slice adds modules / ports / IO edges → **solid** (Gate); else → **write-plan** → **tdd**
 
 ## Spec template (required sections)
 
@@ -168,6 +169,7 @@ spec with it so a newcomer doesn't re-read the repo. Skip this section for green
 - [ ] Upstream design approved (grill or equivalent)
 - [ ] Spec file written from template
 - [ ] Scenarios + In/Out + decision log + acceptance present
+- [ ] Spec passed **review** (`references/spec.md`) vs its upstream; Critical/Important closed
 - [ ] User reviewed (or explicitly waived)
 - [ ] Ready for **solid** (if new boundaries) or **write-plan**
 
