@@ -189,6 +189,14 @@ After approval:
 - **Do not** run full **solid** during grill — only boundary smells in options; Gate solid is after what/why is locked
 - Next owner: **write-spec** → (**solid** if new boundaries) → **write-plan**
 
+**Transition gate** — the design is approved but nothing is written yet, so there is no doc to review here (the spec gets reviewed at write-spec's own gate). Ask the user (one AskUserQuestion; never auto-advance):
+
+```
+A) Recommended: Proceed → write-spec (the spec carries the design into reviewable form)
+B) Re-open the design — a decision still feels soft; go back into grill, then return to this gate
+C) Something else (I will type it)
+```
+
 ## Rationalization Table
 
 | Excuse | Reality |

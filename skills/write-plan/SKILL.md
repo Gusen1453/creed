@@ -37,9 +37,8 @@ Every task lists exact files, a failing-test step, a verify-red step, minimal im
 3. **Task breakdown** — bite-sized; fold scaffolding into the task that needs it.
 4. **Write the plan file** — default `docs/creed/plans/YYYY-MM-DD-<feature>.md` (user path overrides).
 5. **Self-review** — no TBD, tasks have Interfaces + verification commands, YAGNI.
-6. **Review gate** — pressure-check the plan as its own object before any task executes: run **review** with the `plan` rubric (`references/plan.md`); the direct upstream is the spec it narrows. Fix BLOCK/Critical/Important findings here — a task that can't fail RED or that re-opens a product decision must be reworked before Step 1 runs.
-7. **User gate** — ask them to skim the plan before execution.
-8. **Hand off** — execute with **tdd** + **test-design** (optionally Superpowers subagent-driven-development / executing-plans).
+6. **User gate** — ask them to skim the plan before execution.
+7. **Hand off** — execute with **tdd** + **test-design** (optionally Superpowers subagent-driven-development / executing-plans).
 
 ## Plan header (required)
 
@@ -108,11 +107,19 @@ Inline the critical test/impl snippets when they clarify the API; don't dump nov
 - [ ] Plan file written with header + tasks
 - [ ] Each task: files, interfaces, RED→GREEN→commit
 - [ ] Plan does not re-open product decisions
-- [ ] Plan passed **review** (`references/plan.md`) vs its spec upstream; Critical/Important closed
 - [ ] User reviewed plan (or explicitly waived)
 - [ ] Ready for tdd execution
 
 ## Hand-off
+
+**Transition gate** — before the plan is handed to execution or the next stage, ask the user (one AskUserQuestion; never auto-advance):
+
+```
+A) Recommended: Proceed → tdd (+ test-design)
+B) Review first — run **review** on this plan (`references/plan.md`; upstream = the spec it narrows), then return to this gate
+C) Adjust — revise the plan, then return to this gate
+D) Something else (I will type it)
+```
 
 - Product still fuzzy → **grill** / **write-spec**
 - Execute → **tdd** + **test-design**

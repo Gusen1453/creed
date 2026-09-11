@@ -107,5 +107,14 @@ Red-green proof for the regression: fail without fix → pass with fix (mentally
 
 ## Hand-off
 
+**Transition gate** — before the fix ships, ask the user (one AskUserQuestion; never auto-advance):
+
+```
+A) Recommended: Proceed → review (then commit-and-push)
+B) Review first — run **review** on the fix (`references/code.md`; upstream = the failing repro), then return to this gate
+C) Adjust — back into debug for the un-locked edge, then return to this gate
+D) Something else (I will type it)
+```
+
 - Structure was the cause → **solid**
 - Ship the fix → **review** + **commit-and-push**

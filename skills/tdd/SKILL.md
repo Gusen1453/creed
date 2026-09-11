@@ -146,7 +146,16 @@ Only after green: names, duplication, helpers. Keep tests green. Don't add behav
 
 ## Hand-off
 
+**Transition gate** — when a feature slice is done (or before leaving tdd), ask the user (one AskUserQuestion; never auto-advance):
+
+```
+A) Recommended: Proceed → review (then commit-and-push)
+B) Review first — run **review** on the code slice (`references/code.md`; upstream = plan tasks / spec), then return to this gate
+C) Adjust — back into a tdd RED→GREEN cycle for the issue, then return to this gate
+D) Something else (I will type it)
+```
+
 - Case quality unclear → **test-design**
 - Boundaries / mock piles → **solid**
 - Feature shape unclear → **grill** → **write-spec** first, then TDD
-- Ready to ship → **commit-and-push**
+- To ship → **review** then **commit-and-push**

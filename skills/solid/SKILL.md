@@ -86,8 +86,7 @@ Announce "Using solid to …", then:
 4. **ISP pass** — trim fat interfaces
 5. **DIP pass** — push IO out; inject ports
 6. **Theater check** — every new interface must have a *product* reason, not only a test reason
-7. **Review gate** — pressure-check the boundaries as their own object before **write-plan** or code locks onto them: run **review** with the `solid` rubric (`references/solid.md`); the direct upstream is the spec's promised boundaries. Fix BLOCK/Critical/Important findings here — a port with no production adapter or a domain arrow pointing at a concrete is cheaper to catch now than inside tdd.
-8. **Hand off** — **write-plan** (Gate) or resume **tdd** / **review** (Rescue). If product questions reopened → **grill**
+7. **Hand off** — **write-plan** (Gate) or resume **tdd** (Rescue). If product questions reopened → **grill**
 
 ## Red Flags
 
@@ -116,10 +115,18 @@ Announce "Using solid to …", then:
 - [ ] Dependency arrows point inward to policy, not out to IO
 - [ ] Ports are small; adapters own frameworks
 - [ ] No test-only abstractions
-- [ ] Boundaries passed **review** (`references/solid.md`) vs the spec; Critical/Important closed
 - [ ] Ready for write-plan or tdd/test-design without mock piles
 
 ## Hand-off
+
+**Transition gate** — before the boundaries go to **write-plan** (Gate) or back to code (Rescue), ask the user (one AskUserQuestion; never auto-advance):
+
+```
+A) Recommended: Proceed → write-plan (Gate) / resume tdd (Rescue)
+B) Review first — run **review** on these boundaries (`references/solid.md`; upstream = spec's promised boundaries), then return to this gate
+C) Adjust — rework the structure, then return to this gate
+D) Something else (I will type it)
+```
 
 - Product decisions still open → **grill** → **write-spec**
 - Boundaries locked → **write-plan**

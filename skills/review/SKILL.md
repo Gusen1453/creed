@@ -26,7 +26,7 @@ Pressure-check the work product against what was agreed — before the next task
 ## The Iron Law
 
 ```
-1. Critical and Important findings BLOCK progress until fixed or explicitly deferred by the human with reason.
+1. Critical and Important findings BLOCK progress until fixed or explicitly deferred by the human with reason. The **transition gate** at each skill's Hand-off is where that deferral happens — review surfaces findings, the human decides proceed / fix / adjust at the gate.
 2. EVERY review carries a 推演表 (claim→case table) — the design-level analog of a test suite. No 推演表, no LGTM.
 3. EVERY review checks the artifact against its DIRECT upstream (child must faithfully narrow the parent).
 4. NEVER claim "LGTM" without reading the actual artifact (diff, tests, spec text, plan tasks, boundary decisions).
@@ -143,6 +143,15 @@ Full table for a small artifact; for a large one, write every WATCH/BLOCK row + 
 - [ ] Ready for commit-and-push when shipping
 
 ## Hand-off
+
+**Transition gate** — the review report is done; before shipping, ask the user (one AskUserQuestion; never auto-ship a report with open blockers):
+
+```
+A) Recommended: Proceed → commit-and-push (clean, or Critical/Important fixed or waived with reason)
+B) Fix open Critical/Important first — back to debug / tdd, then return to this gate
+C) Adjust — re-review a narrower object / different slice, then return to this gate
+D) Something else (I will type it)
+```
 
 - Code findings → **debug** / **tdd**
 - Structure issues → **solid**
