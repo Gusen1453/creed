@@ -7,9 +7,9 @@ description: Use when the user asks to commit, push, commit-and-push, open/draft
 
 ## Overview
 
-**Commit in reviewable batches, push the feature branch, draft PR/MR copy with a Test plan.**
+**Commit in reviewable batches, push the feature branch, sync the MR/PR (create after asking, update automatically) with a Test plan.**
 
-Path: inspect → batch → commit → push → draft PR title + description.
+Path: inspect → batch → commit → push → draft MR/PR copy → sync MR/PR (detect → update or ask-to-create) → report.
 Does **not** replace test-design judgment (see test-design) or TDD rhythm (see superpowers:test-driven-development).
 
 **Core principle: one commit = one reviewable intent with a Conventional-Compliant, non-obscured message; one PR = one shippable story with a falsifiable Test plan.**
@@ -22,7 +22,7 @@ Does **not** replace test-design judgment (see test-design) or TDD rhythm (see s
 - Working tree mixes concerns that should not land in one commit
 - Need a PR Summary + **Test plan** checklist
 
-**When NOT to use:** review-only with no ship intent; only designing tests (use test-design).
+**When NOT to use:** review-only with no ship intent; only designing tests (use test-design). (If a transition gate upstream offered a review and the user declined, proceed on their call.)
 
 ## The Iron Law (non-negotiable)
 
@@ -31,6 +31,7 @@ Does **not** replace test-design judgment (see test-design) or TDD rhythm (see s
 2. NEVER mix unrelated intents in one commit.
 3. EVERY PR/MR description MUST include an actionable "## Test plan" checklist.
 4. EVERY commit message MUST be Conventional-Compliant (`type(scope): subject`) and non-obscured (below); language is free (中文/English) but the format is not.
+5. NEVER create a NEW MR/PR without an explicit yes; ALWAYS update an EXISTING one for this branch (automatic, full rewrite).
 ```
 
 **Violating the letter is violating the spirit.** "Just one quick commit on test", "I'll add the Test plan later", and "force push is fine this once" do not count.
@@ -44,10 +45,11 @@ Announce "Using commit-and-push to …", then **create one todo per step**:
 3. **Sample the user's voice** (§1.5) — from this feature's conversation, not git history.
 4. **Commit each batch** (§2) — stage only that batch; message answers *why*, Conventional + non-obscured.
 5. **Push the feature branch** (§3) — never force to protected branches; ask before any force.
-6. **Draft PR/MR title + description with Test plan** (§4) — from *all* commits vs baseline, not only HEAD.
-7. **Report** (§5) — paths, commits, push result, paste-ready PR copy, leftovers.
+6. **Draft MR/PR title + description with Test plan** (§4) — from *all* commits vs baseline, not only HEAD.
+7. **Sync the MR/PR** (§4.5) — detect an existing MR/PR for this branch; if one exists, **update it automatically** (full rewrite); if none, **ask** before creating.
+8. **Report** (§5) — paths, commits, push result, MR/PR number + URL, leftovers.
 
-Do **not** create the PR/MR via API/`gh pr create` unless the user explicitly asks to create it.
+Do **not** create a new MR/PR without an explicit yes (§4.5); updating an existing one is automatic.
 
 ## §0 Confirm workspace, branch, upstream
 
@@ -228,7 +230,7 @@ git diff --stat origin/test...HEAD
 - Map items to real risks in *this* diff (routing, config, compatibility, prompts, migrations, …)
 - Prefer behavior checks over "coverage went up"
 
-**Do not** call `gh pr create` / GitLab APIs unless the user asks to create the PR/MR.
+**Do not** create a new MR/PR without an explicit yes — see §4.5.
 If the remote prints a "create merge request" URL after push, include it in the report.
 
 ### Paste-ready output
@@ -254,14 +256,62 @@ If the remote prints a "create merge request" URL after push, include it in the 
 - [ ] ...
 ```
 
+## §4.5 Sync the MR/PR (detect → update or ask-to-create)
+
+Detect whether an MR/PR already exists for **this branch on origin**. Result drives the action:
+
+1. **Detect** the host from `git remote get-url origin` (GitHub → `gh`, GitLab → `glab`; unknown host → skip to paste-ready copy only).
+2. **Check for an existing MR/PR for the current branch**:
+
+   ```bash
+   # GitHub
+   gh pr list --head "$(git branch --show-current)" --state open --json number,title,url --jq '.[0]'
+   # GitLab
+   glab mr list --source-branch "$(git branch --show-current)" --state open --output json | head -c 1000
+   ```
+
+3. **Existing MR/PR found → UPDATE it automatically** (no question; the user asked for automatic updates). Regenerate title + description from `baseline..HEAD` (§4), then:
+
+   ```bash
+   # GitHub
+   gh pr edit <NUMBER> --title "<title>" --body-file /tmp/pr-body.md
+   # GitLab
+   glab mr update <NUMBER> --title "<title>" --description "$(cat /tmp/pr-body.md)"
+   ```
+
+   Write the body to a temp file first (readable + reproducible), then edit. Say what was updated (#N + title).
+
+4. **No MR/PR found → ask before creating** (one AskUserQuestion; creating requires an explicit yes):
+
+   ```
+   A) Recommended: Create the MR/PR now (title + body with Test plan from §4)
+   B) Don't create — just keep the paste-ready copy
+   C) Something else (I will type it)
+   ```
+
+   Only on **A** create it:
+
+   ```bash
+   # GitHub
+   gh pr create --base <baseline-branch> --head "$(git branch --show-current)" \
+     --title "<title>" --body-file /tmp/pr-body.md
+   # GitLab
+   glab mr create --source-branch "$(git branch --show-current)" \
+     --target-branch <baseline-branch> --title "<title>" --description "$(cat /tmp/pr-body.md)"
+   ```
+
+   On **B**, include the paste-ready copy in the report and stop.
+
+**Update semantics:** full rewrite of title + body from `baseline..HEAD` every time — the description always reflects all current commits, Test plan included. Manual edits to a previously-created MR/PR description are overwritten (per decision).
+
 ## §5 Final report
 
 1. Workspace path, worktree?, branch, upstream  
 2. Commit list (hash + message)  
 3. Push result (remote branch, upstream set?)  
-4. PR title + description (required)  
+4. MR/PR: detected #N + URL and whether it was **updated automatically** / **created (on user's yes)** / **copy only (user declined)** — with title + description  
 5. Leftover unstaged/uncommitted files and why  
-6. One-line next step (e.g. open MR into `test` and paste the copy) — do not create it yourself unless asked  
+6. One-line next step
 
 ## Rationalization Table
 
@@ -277,6 +327,8 @@ If the remote prints a "create merge request" URL after push, include it in the 
 | "English-only commits are the only right way" | Format is hard; language is free. Match the user's register (中文/English). |
 | "Use git history for the user's voice" | History is mostly AI-written. Sample the live conversation instead. |
 | "Include the .env so it works on CI" | Secrets never get committed. Warn and skip. |
+| "MR/PR already exists — skip the sync" | Existing MR/PR gets updated automatically every push; a stale description is a wrong claim. |
+| "Just create the MR/PR, no need to ask" | Creation is irreversible on a shared host — ask first (§4.5). |
 
 ## Red Flags — stop immediately
 
@@ -285,7 +337,8 @@ If the remote prints a "create merge request" URL after push, include it in the 
 - PR body with no `## Test plan` or only vague "test it"
 - Automated block that claims a script ran when it did not
 - Using `--force` / `--no-verify` without an explicit user request
-- Creating a PR/MR via tooling when the user only asked for commit/push copy
+- Creating a **new** MR/PR without an explicit yes (§4.5)
+- Skipping the existence check and leaving a stale MR/PR description after a push
 - Commit message that only lists file names
 
 **Any hit → stop, return to the Iron Law.**
@@ -298,4 +351,4 @@ If the remote prints a "create merge request" URL after push, include it in the 
 - [ ] Pushed to `origin <feature-branch>` only
 - [ ] PR title + Summary cover **all** commits vs baseline
 - [ ] `## Test plan` has Automated (ran, checked) + Acceptance (open manual) blocks, both concrete
-- [ ] Did not auto-create PR/MR unless asked
+- [ ] MR/PR checked for this branch: existing → updated automatically; none → asked before creating (or user declined)
