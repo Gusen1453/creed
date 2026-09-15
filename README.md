@@ -32,7 +32,7 @@ Creed        ≈  how the engineer inside the factory thinks
 ## Quickstart
 
 ```bash
-npx skills add Gusen1453/creed
+npx skills add -y -g Gusen1453/creed
 ```
 
 ## Suggested flow
