@@ -112,6 +112,15 @@ Inline the critical test/impl snippets when they clarify the API; don't dump nov
 
 ## Hand-off
 
+**Transition gate** — before the plan is handed to execution or the next stage, ask the user (one AskUserQuestion; never auto-advance):
+
+```
+A) Recommended: Proceed → tdd (+ test-design)
+B) Review first — run **review** on this plan (`references/plan.md`; upstream = the spec it narrows), then return to this gate
+C) Adjust — revise the plan, then return to this gate
+D) Something else (I will type it)
+```
+
 - Product still fuzzy → **grill** / **write-spec**
 - Execute → **tdd** + **test-design**
 - Stuck on structure → **solid**

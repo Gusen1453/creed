@@ -173,6 +173,15 @@ spec with it so a newcomer doesn't re-read the repo. Skip this section for green
 
 ## Hand-off
 
+**Transition gate** — before the spec is passed to the next stage, ask the user (one AskUserQuestion; never auto-advance):
+
+```
+A) Recommended: Proceed → solid (new boundaries) / write-plan
+B) Review first — run **review** on this spec (`references/spec.md`; upstream = approved grill design), then return to this gate
+C) Adjust — revise the spec, then return to this gate
+D) Something else (I will type it)
+```
+
 - New modules / ports / IO edges → **solid** (Gate)
 - No new boundary → **write-plan**
 - Product still open → **grill** (do not plan)

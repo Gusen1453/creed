@@ -86,7 +86,7 @@ Announce "Using solid to …", then:
 4. **ISP pass** — trim fat interfaces
 5. **DIP pass** — push IO out; inject ports
 6. **Theater check** — every new interface must have a *product* reason, not only a test reason
-7. **Hand off** — **write-plan** (Gate) or resume **tdd** / **review** (Rescue). If product questions reopened → **grill**
+7. **Hand off** — **write-plan** (Gate) or resume **tdd** (Rescue). If product questions reopened → **grill**
 
 ## Red Flags
 
@@ -118,6 +118,15 @@ Announce "Using solid to …", then:
 - [ ] Ready for write-plan or tdd/test-design without mock piles
 
 ## Hand-off
+
+**Transition gate** — before the boundaries go to **write-plan** (Gate) or back to code (Rescue), ask the user (one AskUserQuestion; never auto-advance):
+
+```
+A) Recommended: Proceed → write-plan (Gate) / resume tdd (Rescue)
+B) Review first — run **review** on these boundaries (`references/solid.md`; upstream = spec's promised boundaries), then return to this gate
+C) Adjust — rework the structure, then return to this gate
+D) Something else (I will type it)
+```
 
 - Product decisions still open → **grill** → **write-spec**
 - Boundaries locked → **write-plan**
