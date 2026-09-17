@@ -38,7 +38,7 @@ After writing each test, mentally (or actually) break the logic it guards and co
 Announce "Using test-design to …", then **create one todo per step**:
 
 1. **Decide if it's worth testing** (§1): complexity in own logic → unit test; in dependency wiring → integration test. Not worth it → don't write.
-2. **Write a behavior list** (§2): from the contract only — "when …, it should …", including things with no dedicated branch (e.g. "don't delete my legit content").
+2. **Write a behavior list** (§2): from the contract only — "when …, it should …", including things with no dedicated branch (e.g. "don't delete my legit content"). Each case carries its **goal / conditions / parameters** in reader-facing words (see §2).
 3. **Pick representative points** (§3): equivalence classes / boundaries / decision table / state transitions / dirty input — one representative each, no homogeneous duplicates.
 4. **Write assertions** (§4): assert return value / observable state / side-effect boundary only; narrow and hard; hand-write `expected`.
 5. **Decide mocks** (§5): mock only the outside world; count ≤ 2-3; prefer Fake/Recording.
@@ -58,6 +58,21 @@ Criterion: **is the complexity in the code's own logic, or in the interaction be
 
 Write "when …, it should …" from the contract only. **Never count `if`s in the source.** The list MUST include items with no dedicated branch that users care about most.
 If a case was "written while reading the source", delete and rewrite it — it protects the implementation, not the contract.
+
+**Each case must be legible to someone who is not the author.** State three things in plain user/product words — before any code:
+
+- **Goal** — what this case proves, in one sentence a non-author understands (the user-visible outcome, not the mechanism).
+- **Conditions** — the state the case sets up (who / which data / what happened just before).
+- **Parameters** — the concrete inputs and the expected observable result (values, and *why that value is the interesting one* — boundary, extreme, real case).
+
+A case whose Goal is only readable by re-reading the source has failed this bar. Example:
+
+```
+Case: re-import with the same file twice
+- Goal:      a re-run must not double-count rows (the bug users reported as "my totals doubled")
+- Conditions: the file was already imported once; no other change
+- Parameters: same file; expect the row count unchanged, and an idempotency marker set
+```
 
 ## §3 Five techniques to pick representative points
 
