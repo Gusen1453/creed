@@ -5,6 +5,8 @@ description: "Use when locking module boundaries, class/API shape, or dependency
 
 # SOLID
 
+> **Output language:** answer and write artifacts in the user's own language (match their messages, not the repo's history).
+
 ## Overview
 
 Apply **SOLID** so behavior is easy to change and to test without a pile of mocks.

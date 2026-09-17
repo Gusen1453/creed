@@ -5,6 +5,8 @@ description: "Use when implementing any feature, bug fix, refactor, or behavior 
 
 # TDD
 
+> **Output language:** answer and write artifacts in the user's own language (match their messages, not the repo's history).
+
 ## Overview
 
 **Write the test first. Watch it fail. Write the minimal code to pass. Refactor.**

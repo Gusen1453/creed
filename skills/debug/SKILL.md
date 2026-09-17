@@ -5,6 +5,8 @@ description: "Use when hitting a bug, a test or CI failure, unexpected behavior,
 
 # Debug
 
+> **Output language:** answer and write artifacts in the user's own language (match their messages, not the repo's history).
+
 ## Overview
 
 Fuses systematic root-cause debugging with **verification-before-completion**.

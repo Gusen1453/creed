@@ -5,6 +5,8 @@ description: "Use when you have an approved design or spec, or clear requirement
 
 # Write Plan
 
+> **Output language:** answer and write artifacts in the user's own language (match their messages, not the repo's history).
+
 ## Overview
 
 Turn an approved design into an **implementation plan** a forgetful agent can execute without inventing scope.
@@ -33,12 +35,14 @@ Every task lists exact files, a failing-test step, a verify-red step, minimal im
 ## Workflow
 
 1. **Scope check** — multiple independent subsystems? Split into separate plans (one shippable slice each).
-2. **File map** — list create/modify/test paths and one-line responsibility each (**solid**: clear boundaries).
-3. **Task breakdown** — bite-sized; fold scaffolding into the task that needs it.
+2. **File map** — before locking the paths, take the structure pointer: **solid** for boundaries (ports / adapters / dependency arrows). If the slice adds no new boundary, say so and move on. The file map records the result.
+3. **Task breakdown** — bite-sized; fold scaffolding into the task that needs it. Before writing each task's RED step, take the verification pointer: **test-design** for the case list — every case reads in user/product words (goal / conditions / parameters), so a non-author can see *what* is proven and *why*. These cases are the tasks' RED tests.
 4. **Write the plan file** — default `docs/creed/plans/YYYY-MM-DD-<feature>.md` (user path overrides).
 5. **Self-review** — no TBD, tasks have Interfaces + verification commands, YAGNI.
 6. **User gate** — ask them to skim the plan before execution.
 7. **Hand off** — execute with **tdd** + **test-design** (optionally Superpowers subagent-driven-development / executing-plans).
+
+These two pointers are *suggestions to pass through*, not mandatory gates: solid may be skipped (no new boundary), test-design is where the cases come from. Naming them here is what keeps them from being silently skipped — or over-applied.
 
 ## Plan header (required)
 
@@ -49,9 +53,11 @@ Every task lists exact files, a failing-test step, a verify-red step, minimal im
 
 **Goal:** <one sentence>
 
-**Architecture:** <2–3 sentences>
+**Architecture:** <2–3 sentences — the boundaries settled with **solid**; if no new boundary, say "no new boundary">
 
 **Tech Stack:** <key libs>
+
+**Cases (from test-design):** <the "when …, it should …" list, each with goal / conditions / parameters in reader-facing words>
 
 ## Global Constraints
 
@@ -100,10 +106,14 @@ Inline the critical test/impl snippets when they clarify the API; don't dump nov
 | "Skip test steps — we'll TDD later" | Later = never. Steps include RED/GREEN. |
 | "Plan is the design doc" | Spec (`write-spec`) = what/why; plan = who touches which file when. |
 | "We'll decide product scope in the plan" | Open product calls → back to **grill**, then **write-spec**. |
+| "Solid is ceremony, skip it" | Then say "no new boundary" and move on — an unstated skip is the problem, not the skip. |
+| "test-design is for later, in tdd" | The cases shape the tasks' RED steps. Deciding them in the plan is what makes each task independently testable. |
 
 ## Checklist
 
-- [ ] Spec approved (`write-spec`) or verbal design + waiver; solid considered
+- [ ] Spec approved (`write-spec`) or verbal design + waiver
+- [ ] Structure pointer passed (**solid**) — or "no new boundary" said out loud
+- [ ] Verification pointer passed (**test-design**) — cases in user/product words (goal / conditions / parameters)
 - [ ] Plan file written with header + tasks
 - [ ] Each task: files, interfaces, RED→GREEN→commit
 - [ ] Plan does not re-open product decisions

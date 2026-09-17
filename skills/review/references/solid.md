@@ -13,7 +13,7 @@ Rubric for reviewing a **structure/boundary decision** (output of `solid`: unit 
 - The **theater check** — claim: "every new interface has a product reason, not only a test reason (a real production adapter exists)."
 - The **boundary vs spec** — claim: "the structure delivers the spec's scenarios; it adds no modules the spec didn't imply."
 
-## 推演表 scenario packs (inject into each claim)
+## claim→case table scenario packs (inject into each claim)
 
 - **happy path** — wire a real call through the structure (domain → port → adapter → concrete); does each arrow hold?
 - **boundary** — the smallest unit (is it real or invented?); the biggest (God type?); a unit with one caller that uses 3 of its 15 methods (ISP failure).

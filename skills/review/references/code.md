@@ -14,7 +14,7 @@ Rubric for reviewing a **code diff / implementation slice**. The code is a child
 - **Security edges** — claim: "no injection, no auth bypass, no secret in the diff."
 - **Test-design quality** — claim: "tests assert contracts, not mock call counts; no unit test for pure glue; integration where the wiring is the risk."
 
-## 推演表 scenario packs (inject into each claim)
+## claim→case table scenario packs (inject into each claim)
 
 - **happy path** — the golden call; does the code do what the test says?
 - **boundary** — empty collection, zero, first/last element, quota, just-out-of-range, null/absent optional, concurrent writers.
@@ -40,7 +40,7 @@ Rubric for reviewing a **code diff / implementation slice**. The code is a child
 ## Done
 
 - [ ] Each new behavior traced to a plan task (or spec); no scope add
-- [ ] 推演表 rows cover error paths, boundaries, retry/idempotency, security
+- [ ] claim→case table rows cover error paths, boundaries, retry/idempotency, security
 - [ ] Tests assert contracts (hand-written expected), not mirrors; tests read
 - [ ] Real case (if any) injected into the table and replayed
 - [ ] Upstream checked (or WATCH noted)

@@ -5,6 +5,8 @@ description: "Use when finishing a task or task slice, before a merge or PR, or 
 
 # Review
 
+> **Output language:** answer and write artifacts in the user's own language (match their messages, not the repo's history).
+
 ## Overview
 
 Pressure-check the work product against what was agreed — before the next task or before **commit-and-push**. The reviewable object is not always a code diff: a **spec** (`write-spec`), a **plan** (`write-plan`), or a **structure decision** (`solid`) each gets its own review with its own falsification method.
@@ -27,7 +29,7 @@ Pressure-check the work product against what was agreed — before the next task
 
 ```
 1. Critical and Important findings BLOCK progress until fixed or explicitly deferred by the human with reason. The **transition gate** at each skill's Hand-off is where that deferral happens — review surfaces findings, the human decides proceed / fix / adjust at the gate.
-2. EVERY review carries a 推演表 (claim→case table) — the design-level analog of a test suite. No 推演表, no LGTM.
+2. EVERY review carries a claim→case table — the design-level analog of a test suite. No claim→case table, no LGTM.
 3. EVERY review checks the artifact against its DIRECT upstream (child must faithfully narrow the parent).
 4. NEVER claim "LGTM" without reading the actual artifact (diff, tests, spec text, plan tasks, boundary decisions).
 5. Findings are written in the user's conversational language, plain words, no metaphor-for-decoration; each finding says the scene, what someone hits, and where in the artifact.
@@ -37,14 +39,14 @@ Pressure-check the work product against what was agreed — before the next task
 
 Identify the review object, open its reference, and run only that rubric.
 
-| Review object | When | Reference | 推演表 built from |
+| Review object | When | Reference | claim→case table built from |
 |---------------|------|-----------|--------------------|
 | **code** | A diff / implementation slice | `references/code.md` | claims in the diff (behavior + test expectations) |
 | **spec** | A design/spec doc (`write-spec` output) | `references/spec.md` | claims in the spec (scenarios, In/Out, mechanisms, acceptance) |
 | **plan** | An implementation plan (`write-plan` output) | `references/plan.md` | claims in the plan (per-task testability, traceability) |
 | **solid** | A structure/boundary decision | `references/solid.md` | structural claims (unit purpose, dependency arrows, no theater) |
 
-Mixed object (e.g. a PR that ships a spec + its first implementation)? Run the reference for each object, one 推演表 per object, one report.
+Mixed object (e.g. a PR that ships a spec + its first implementation)? Run the reference for each object, one claim→case table per object, one report.
 
 ## Workflow
 
@@ -52,15 +54,15 @@ Mixed object (e.g. a PR that ships a spec + its first implementation)? Run the r
    - Identify the object type → open the matching reference
    - The artifact itself + its **direct upstream** (spec when reviewing plan, plan when reviewing code, grill decisions when reviewing spec, spec boundaries when reviewing solid)
    - For code: `git diff` / `BASE...HEAD`
-2. **Run the reference rubric** — 推演表 is mandatory output (see below). Prefer a fresh subagent/reviewer when available; otherwise self-review with the same rubric.
+2. **Run the reference rubric** — claim→case table is mandatory output (see below). Prefer a fresh subagent/reviewer when available; otherwise self-review with the same rubric.
 3. **Report** by severity: Critical / Important / Minor — every finding in plain language, three-part (scene → what someone hits → where in the artifact).
 4. **Act**: fix Critical + Important; note Minor; push back on wrong findings with evidence.
-5. **Re-verify** — if fixes landed, re-run the relevant part of the 推演表; for code re-run tests (**debug** verification gate / **tdd**).
+5. **Re-verify** — if fixes landed, re-run the relevant part of the claim→case table; for code re-run tests (**debug** verification gate / **tdd**).
 6. **Hand off** to **commit-and-push** when shipping.
 
-## The 推演表 (mandatory)
+## The claim→case table (mandatory)
 
-**A claim that is not falsified is not reviewed.** Like a test suite, the 推演表 makes each falsifiable claim in the artifact a row, injects scenarios, and assigns a verdict.
+**A claim that is not falsified is not reviewed.** Like a test suite, the claim→case table makes each falsifiable claim in the artifact a row, injects scenarios, and assigns a verdict.
 
 For each row:
 
@@ -78,7 +80,7 @@ For each row:
 **Output shape — a fixed section in every report:**
 
 ```markdown
-### 推演表
+### claim→case table
 | Claim | Scenarios injected | Verdict |
 |-------|--------------------|---------|
 | …     | happy; boundary; extreme; real case   | PASS/WATCH/BLOCK |
@@ -108,7 +110,7 @@ Full table for a small artifact; for a large one, write every WATCH/BLOCK row + 
 ### Minor
 - …
 
-### 推演表
+### claim→case table
 | Claim | Scenarios injected | Verdict |
 |-------|--------------------|---------|
 ```
@@ -118,8 +120,8 @@ Full table for a small artifact; for a large one, write every WATCH/BLOCK row + 
 | Excuse | Reality |
 |--------|---------|
 | "It's a small change" | Small changes break prod too. Run the rubric anyway. |
-| "Tests pass = good" | Tests can be theater. Check the 推演表 covers the claims. |
-| "It's just a plan/spec, nothing to test" | Plans/specs have falsifiable claims — that is what the 推演表 is for. |
+| "Tests pass = good" | Tests can be theater. Check the claim→case table covers the claims. |
+| "It's just a plan/spec, nothing to test" | Plans/specs have falsifiable claims — that is what the claim→case table is for. |
 | "The user is technical, no need for plain words" | Findings must survive being read by the next person who was NOT in the room. Plain words are for them. |
 | "I'll review in the PR UI later" | Catch now; later compounds. |
 | "Reviewer is wrong so ignore" | Push back with evidence — don't ghost Critical. |
@@ -127,7 +129,7 @@ Full table for a small artifact; for a large one, write every WATCH/BLOCK row + 
 ## Red Flags
 
 - Shipping without opening the artifact (diff, spec text, plan tasks, boundary decisions)
-- "LGTM" with no 推演表 pass
+- "LGTM" with no claim→case table pass
 - Proceeding with open Critical/Important
 - Reviewing only the object, never its direct upstream
 - Findings written in jargon only, with no scene / no "who gets hit"
@@ -136,7 +138,7 @@ Full table for a small artifact; for a large one, write every WATCH/BLOCK row + 
 
 - [ ] Object identified; matching reference open
 - [ ] Artifact + direct upstream in hand (upstream missing → WATCH finding)
-- [ ] 推演表 filled; every claim falsified or swept
+- [ ] claim→case table filled; every claim falsified or swept
 - [ ] Findings plain-word three-part (scene → what someone hits → where); no decorative metaphor
 - [ ] Severities assigned; blockers fixed or waived by human
 - [ ] Verification re-run if fixes landed

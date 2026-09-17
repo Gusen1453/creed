@@ -5,6 +5,8 @@ description: "Use when starting any conversation in a Creed-enabled workspace, o
 
 # Using Creed
 
+> **Output language:** answer and write artifacts in the user's own language (match their messages, not the repo's history).
+
 <SUBAGENT-STOP>
 If you were dispatched as a subagent to execute a specific task, ignore this skill.
 </SUBAGENT-STOP>
@@ -71,7 +73,7 @@ D) Something else (I will type it)
 Rules (identical in every skill's gate):
 
 - **Choose B** → run **review** on that object with its rubric (it checks the
-  object against its direct upstream; a 推演表 is mandatory). Fix Critical +
+  object against its direct upstream; a claim→case table is mandatory). Fix Critical +
   Important findings, or have the user defer them with a reason. Then **return to
   the same gate** and re-ask — the user may pick A, request another review round,
   or adjust.
