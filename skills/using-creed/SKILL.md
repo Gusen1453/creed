@@ -32,6 +32,8 @@ Required skills: `explore`, `grill`, `write-spec`, `solid`, `write-plan`, `tdd`,
 
 If any are missing from the workspace skill list: **stop and ask the user to run the install command above** before doing the work. Do not invent Creed workflows from memory.
 
+**Installed but stale?** The repo is only the source; the install is a snapshot, so editing the repo changes nothing until reinstall. Detect a stale install and refresh it (only with the user's explicit confirmation) — see [references/install-and-update.md](references/install-and-update.md).
+
 ## How to use
 
 1. Match the task to a skill in the map below.
