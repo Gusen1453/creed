@@ -5,6 +5,8 @@ description: "Use when you have an approved design or spec, or clear requirement
 
 # Write Plan
 
+> **Output language:** answer and write artifacts in the user's own language (match their messages, not the repo's history).
+
 ## Overview
 
 Turn an approved design into an **implementation plan** a forgetful agent can execute without inventing scope.

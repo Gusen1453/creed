@@ -64,7 +64,7 @@ For each batch, in order:
 1. `git add` **only** that batch's files
 2. `git diff --cached` to verify
 3. Write the message (Conventional Commits, **hard gate** — `type(scope): subject`, type from the standard enum, scope from repo convention):
-   - Subject: one line, ≤ ~50 chars, outcome verb first, language as the user writes (中文 or English — no forced translation)
+   - Subject: one line, ≤ ~50 chars, outcome verb first, language as the user writes (Chinese or English — no forced translation)
    - Body (optional): 1–2 sentences on **why / outcome**, not a file dump
    - Run the non-obscuring checklist from [voice.md](voice.md) before committing
 4. Commit (no `--no-verify`, no `--no-gpg-sign`, no `git config` changes unless the user explicitly asks)
@@ -91,7 +91,7 @@ Optional body for context reviewers need.
 Chinese example — same shape, user's own language:
 
 ```bash
-git commit -m "feat(scope): 导出前新增类型校验，防止空值落库"
+git commit -m "feat(scope): reject empty values before export"
 ```
 
 5. `git status`. If a hook fails: **fix and make a NEW commit**. Do not amend unless all amend-safety conditions hold (user asked, or hook auto-modified files after a commit *you* created in this conversation; HEAD not pushed).

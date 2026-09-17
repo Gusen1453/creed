@@ -6,7 +6,7 @@ Rubric for reviewing a **spec** (output of `write-spec`, or any approved design 
 
 ## Claims worth falsifying
 
-A spec is a set of claims. Pull one row per claim into the 推演表:
+A spec is a set of claims. Pull one row per claim into the claim→case table:
 
 - Every **scenario** in §2 (happy + failure/edge) — claim: "a newcomer can role-play this from the text; the outcome is observable."
 - The **In/Out** boundary (§3) — claim: "In and Out are mutually exclusive and total; nothing important falls in the seam."
@@ -16,7 +16,7 @@ A spec is a set of claims. Pull one row per claim into the 推演表:
 - **Decision-log claims** (§4) — claim: "each row names what was rejected and why in user-visible terms; nothing re-opened silently."
 - **Out-of-scope claims** (skipped this round) — claim: "the 'why skipped' is a decision, not an accident."
 
-## 推演表 scenario packs (inject into each claim)
+## claim→case table scenario packs (inject into each claim)
 
 - **happy path** — walk the scenario start-to-finish in plain words; does the spec let you?
 - **boundary** — the smallest/largest/most extreme value the scenario implies; empty list, zero rows, quota hit, deadline, just-out-of-range; does the spec say what happens?

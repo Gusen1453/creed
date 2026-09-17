@@ -1,4 +1,4 @@
-# MR template — Verification handoff (提测单 / "ready for QA")
+# MR template — Verification handoff ("ready for QA")
 
 **Intent:** a change that needs **independent verification by someone else** before it is accepted. Any branch/target naming can express this (feature or fix → an integration / QA / staging / dev branch — whatever this repo calls it).
 
@@ -45,6 +45,6 @@
 - [ ] <the edge case from "How to verify" passes>
 ```
 
-> Honesty rule: nothing in Automated unless it truly ran. A check you didn't run goes under Acceptance as "待验证".
+> Honesty rule: nothing in Automated unless it truly ran. A check you didn't run goes under Acceptance as "to verify".
 
 **Emphasis:** **verification steps + impact surface + known limits.** The verifier's only question is "what do I click to prove this works, and what might it have broken." Rollback is not the point here — not accepting the change is the rollback.

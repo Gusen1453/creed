@@ -5,6 +5,8 @@ description: Use when writing, reviewing, or modifying unit/integration tests, a
 
 # Test Design
 
+> **Output language:** answer and write artifacts in the user's own language (match their messages, not the repo's history).
+
 ## Overview
 
 Answers **"what input should a test feed, what should it assert, and what should it mock"**. Does NOT cover the red-green-refactor rhythm (that is TDD).

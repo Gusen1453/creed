@@ -5,6 +5,8 @@ description: "Use after design alignment (grill), or when the user asks for a de
 
 # Write Spec
 
+> **Output language:** answer and write artifacts in the user's own language (match their messages, not the repo's history).
+
 ## Overview
 
 Turn an **approved design** into a durable **product spec** that a new teammate (or future you) can understand without the meeting recording.

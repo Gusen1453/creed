@@ -1,4 +1,4 @@
-# MR template — Incident hotfix (事故单 / "out-of-band production fix")
+# MR template — Incident hotfix ("out-of-band production fix")
 
 **Intent:** a fix that must reach **production now**, skipping the normal verification stage. Any naming can express this (a hotfix branch, or a fix cut straight from the production branch → the production branch — `main`, `master`, `pro`, `prod`, `release`…).
 
@@ -9,7 +9,7 @@
 
 ## Title
 
-`fix(scope): <the symptom, not the code>` — e.g. `fix(order): 支付回调重复入账`.
+`fix(scope): <the symptom, not the code>` — e.g. `fix(order): duplicate settlement on payment callback`.
 
 ## Body
 

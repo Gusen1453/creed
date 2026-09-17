@@ -5,6 +5,8 @@ description: Use when a task modifies or references existing code — refactors,
 
 # Explore
 
+> **Output language:** answer and write artifacts in the user's own language (match their messages, not the repo's history).
+
 ## Overview
 
 Turn a task's code references into a **fact checklist** the main agent can act on without re-reading the repo.

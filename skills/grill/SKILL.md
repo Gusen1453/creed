@@ -5,6 +5,8 @@ description: Use when starting any creative work — a new feature, behavior cha
 
 # Grill
 
+> **Output language:** answer and write artifacts in the user's own language (match their messages, not the repo's history).
+
 ## Overview
 
 Turn a rough idea into an **approved design** by deciding one thing at a time — then stop. No code until you and the user can say the same thing in plain language.

@@ -46,4 +46,4 @@ The register (language + tone) is sampled at the **anchor**, then carried along 
 - Start with the **outcome/result verb** (add, ship, route, expose, fix, drop…), not an adjective stack
 - No piled modifiers; no vague verbs ("improve", "better", "make nicer"); no file-name dump
 - `type` = primary user-visible intent (don't stack every type)
-- Match the repo's recent style (language included — 中文 or English as the user writes)
+- Match the repo's recent style (language included — Chinese or English as the user writes)

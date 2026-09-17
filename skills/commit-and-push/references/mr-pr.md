@@ -21,24 +21,24 @@ git log --oneline origin/<base>..HEAD
 git diff --stat origin/<base>...HEAD
 ```
 
-**Counts must come from `git rev-list --count` (merges included)** — that is GitLab/GitHub's commit-count 口径; `--no-merges` undercounts and will not match the host's number.
+**Counts must come from `git rev-list --count` (merges included)** — that is GitLab/GitHub's commit-count convention; `--no-merges` undercounts and will not match the host's number.
 
 ### Pick the intent, then the template
 
-The description's emphasis depends on **what the MR is for** — a verifier's 提测单, a release 发版单, and an on-call 事故单 are different documents. Branch names are a **hint, not the rule**: infer the *intent* from source → target plus the repo's naming, and fall back to the generic template when it's unclear.
+The description's emphasis depends on **what the MR is for** — a verifier's verification handoff, a release promotion, and an on-call incident hotfix are different documents. Branch names are a **hint, not the rule**: infer the *intent* from source → target plus the repo's naming, and fall back to the generic template when it's unclear.
 
-| Intent (what the MR is doing) | 提测单 / 发版单 / 事故单 | Template | Emphasis |
+| Intent (what the MR is doing) | Kind | Template | Emphasis |
 |---|---|---|---|
-| **Change → independent verification** — a feature/fix awaiting someone else's sign-off, into an integration / QA / staging / dev branch | 提测单 | [feature-to-integration.md](../assets/feature-to-integration.md) | impact surface + how-to-verify + known limits |
-| **Promotion → production** — an already-verified line of work shipping into prod | 发版单 | [integration-to-production.md](../assets/integration-to-production.md) | release notes by feature + risky surfaces + deploy order + rollback |
-| **Fix → production now** — an out-of-band fix that skips the verification stage | 事故单 | [hotfix-to-production.md](../assets/hotfix-to-production.md) | root cause + rollback + the repro that proves it |
+| **Change → independent verification** — a feature/fix awaiting someone else's sign-off, into an integration / QA / staging / dev branch | verification handoff | [feature-to-integration.md](../assets/feature-to-integration.md) | impact surface + how-to-verify + known limits |
+| **Promotion → production** — an already-verified line of work shipping into prod | release promotion | [integration-to-production.md](../assets/integration-to-production.md) | release notes by feature + risky surfaces + deploy order + rollback |
+| **Fix → production now** — an out-of-band fix that skips the verification stage | incident hotfix | [hotfix-to-production.md](../assets/hotfix-to-production.md) | root cause + rollback + the repro that proves it |
 | none of the above (e.g. a docs/chore branch, or intent unclear) | generic | the inline template below | summary + Test plan |
 
 **Do not match on branch names literally.** The production branch may be `main`, `master`, `pro`, `prod`, `release`, `production`, …; the integration branch may be `test`, `dev`, `staging`, `qa`, `develop`, …. Decide **which branch plays which role** in *this* repo first (from its naming, README, or the MR's own `target_branch`), then pick the intent:
 
-- source is a feature/fix branch, target is the **non-production integration** role → 提测单
-- source is the **integration** role, target is the **production** role → 发版单
-- source is a fix, target is the **production** role, and it bypasses integration → 事故单
+- source is a feature/fix branch, target is the **non-production integration** role → verification handoff
+- source is the **integration** role, target is the **production** role → release promotion
+- source is a fix, target is the **production** role, and it bypasses integration → incident hotfix
 - otherwise → generic
 
 Detect once per MR (§4.5 already has `source`/`target`); if the roles are ambiguous, use the generic template and say why. **Every template inherits the hard rules below** (Conventional title, honesty rule on `Automated`, no secret/env values). The release/hotfix templates replace the generic `## Test plan` with their own verification section — allowed; the `Automated` honesty rule still applies.
@@ -48,7 +48,7 @@ Detect once per MR (§4.5 already has `source`/`target`); if the roles are ambig
 - One line, `type(scope): summary` — **Conventional, hard gate** (type from standard enum, scope from repo convention)
 - `type` = primary user-visible intent (don't stack every type)
 - Summary = **why / outcome**, ≤ ~50 chars of substance, outcome verb first, no stacked modifiers
-- Language as the user writes (中文 / English) — the [voice.md](voice.md) chain (MR inherits register from its commits, not directly from the query)
+- Language as the user writes (Chinese / English) — the [voice.md](voice.md) chain (MR inherits register from its commits, not directly from the query)
 - **Release/hotfix flows** may instead name the release/symptom (`release(vX.Y.Z): …` / `fix(scope): <symptom>`), per their template
 
 ### Description template — generic fallback
@@ -73,7 +73,7 @@ Detect once per MR (§4.5 already has `source`/`target`); if the roles are ambig
 
 - Checklist items must be **doable** by a reviewer (command, URL, scenario) — not "run the tests" with no target
 - **Two blocks, one intent:** `Automated (ran before commit)` lists scripts that **actually ran** (checked, with the command); `Acceptance (user/product)` lists open manual steps for a human to verify — what they should see/feel
-- **Honesty rule:** nothing goes in the Automated block unless it was actually run before commit. A check that didn't run either stays unmarked or moves to Acceptance as "待验证 / to verify"
+- **Honesty rule:** nothing goes in the Automated block unless it was actually run before commit. A check that didn't run either stays unmarked or moves to Acceptance as "to verify / to verify"
 - Map items to real risks in *this* diff (routing, config, compatibility, prompts, migrations, …)
 - Prefer behavior checks over "coverage went up"
 
@@ -163,11 +163,11 @@ Detect whether an MR/PR already exists for **this branch on origin**. Result dri
 
 **Update semantics — match the MR's kind, don't blindly rewrite:**
 
-- **提测单 (change → verification)** — short-lived: full rewrite of title + body from `baseline..HEAD`. Manual edits are overwritten.
-- **发版单 (promotion → production)** — long-lived: **incremental re-derivation** — preserve the existing prose sections and hand-curated tables, recompute only stale numbers (commit/file counts), add a section for the new commits, append acceptance rows. **Never** regenerate from the commit list, which collapses a curated release note into a changelog.
-- **事故单 (fix → production)** — one-shot: regenerate, terse, single commit.
+- **verification handoff (change → verification)** — short-lived: full rewrite of title + body from `baseline..HEAD`. Manual edits are overwritten.
+- **release promotion (promotion → production)** — long-lived: **incremental re-derivation** — preserve the existing prose sections and hand-curated tables, recompute only stale numbers (commit/file counts), add a section for the new commits, append acceptance rows. **Never** regenerate from the commit list, which collapses a curated release note into a changelog.
+- **incident hotfix (fix → production)** — one-shot: regenerate, terse, single commit.
 - If unsure which kind, ask.
 
 **Some content cannot be derived from git** — e.g. a commit-attribution table keyed by feature/author, an **`@handle` owner list**, or a hand-written release narrative. Never auto-generate these; carry them forward from the existing description or ask.
 
-**Owner mentions (发版单 / 事故单).** The owner is normally the git user who owns the change; use their host handle, and if it differs from `user.name` that is a point to **confirm with the user**, not to guess. If a ping must actually reach someone, set `--assignee`/`--reviewer` (or post a comment) rather than relying on a body mention — commands in [host-cli.md](host-cli.md).
+**Owner mentions (release / hotfix).** The owner is normally the git user who owns the change; use their host handle, and if it differs from `user.name` that is a point to **confirm with the user**, not to guess. If a ping must actually reach someone, set `--assignee`/`--reviewer` (or post a comment) rather than relying on a body mention — commands in [host-cli.md](host-cli.md).

@@ -1,4 +1,4 @@
-# MR template — Release / promotion (发版单 / "ship to production")
+# MR template — Release promotion ("ship to production")
 
 **Intent:** promoting an already-integrated, already-verified line of work into **production**. Any naming can express this (an integration/QA/staging branch → a production branch called `main`, `master`, `pro`, `prod`, `release`… — whatever this repo calls it). It is often **long-lived**: it accumulates many feature sections over weeks.
 
@@ -30,7 +30,7 @@ One line naming the release, not a commit subject: e.g. `release(vX.Y.Z): <theme
 ## Changes to shared / risky surfaces
 - **Config / env / secrets:** <added/changed, default, who must set it>
 - **DB / migration:** <forward + how it behaves on rollback>
-- **External contract (API/接口/上下游):** <breaking? compatible?>
+- **External contract (API / upstream contract):** <breaking? compatible?>
 - **Dependencies / version bumps:** <list>
 
 ## Deploy sequence (order matters)

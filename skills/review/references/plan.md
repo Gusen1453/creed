@@ -14,7 +14,7 @@ Rubric for reviewing a **plan** (output of `write-plan`). The plan is a child of
 - The **granularity** — claim: "each task is independently reviewable; you do not need Task 5's knowledge to know Task 2 worked."
 - **No product decisions re-opened** — claim: "every task executes decisions the spec already made; the plan asks no new product questions."
 
-## 推演表 scenario packs (inject into each claim)
+## claim→case table scenario packs (inject into each claim)
 
 - **happy path** — pick one task and walk it: RED → minimal impl → GREEN; does the plan's own wording survive?
 - **boundary** — the exact first/last task; the smallest task (is it trivially skipable but still tested?); the seam between two tasks (who owns the integration?).
