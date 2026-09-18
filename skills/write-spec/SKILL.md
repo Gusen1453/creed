@@ -70,6 +70,7 @@ Write for one reader who is both the engineer and a daily user of what they buil
 **Status:** Draft | Approved
 **Date:** YYYY-MM-DD
 **Owner:** <who decides product calls>
+**Issue:** #<N>   ← only when this session already has an issue number; omit the line otherwise
 
 ## 0. Current state (from explore) — refactor/legacy only
 

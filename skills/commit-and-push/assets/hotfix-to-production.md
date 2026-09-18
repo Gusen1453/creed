@@ -1,53 +1,44 @@
-# MR template — Incident hotfix ("out-of-band production fix")
-
-**Intent:** a fix that must reach **production now**, skipping the normal verification stage. Any naming can express this (a hotfix branch, or a fix cut straight from the production branch → the production branch — `main`, `master`, `pro`, `prod`, `release`…).
-
-**Reader:** the on-call engineer approving an out-of-band production change — needs to know **what broke, why this fixes it, and how to back out fast**.
-**Update semantics:** one-shot and short. Usually a single commit; regenerate from `baseline..HEAD` but keep it terse. Do not pad.
-
 ---
+name: Hotfix
+about: A fix that has to reach production now, skipping the verification stage
+reader: The on-call engineer approving an out-of-band production change — what broke, why this fixes it, how to back out
+update: One-shot and short, usually one commit. Regenerate from `baseline..HEAD` and keep it terse. Do not pad — the reader is mid-incident.
+---
+
+**When this fits:** a fix going straight into the branch that serves production, bypassing the verification branch.
 
 ## Title
 
 `fix(scope): <the symptom, not the code>` — e.g. `fix(order): duplicate settlement on payment callback`.
 
-## Body
+## Body — fill all four
 
 ```markdown
-## Incident
-- **Symptom:** <what users/prod actually saw>
-- **Impact & window:** <who was hit, from when to when, how bad>
-- **Detected by:** <alert / customer report / dashboard>
+## What broke
+- **Symptom:** <what production actually did>
+- **Who was hit, and when:** <scope + time window>
 
 ## Root cause
 - <the one thing that was wrong — evidence, not a guess>
 
-## Fix
-- <what this change does, in one line>
-- **Why hotfix (not wait for the verification stage):** <urgency reason>
-
-## Risk of this fix
-- **Blast radius:** <what else this touches>
-- **Why it is safe to ship straight to prod:** <test/repro evidence — the exact repro now passes>
-- **What it does NOT address:** <follow-up left for the normal release>
+## The fix, and why it is safe now
+- <what this change does, one line>
+- **Proof:** <the repro that failed before and passes now — command + result>
+- **Also touches:** <blast radius, or "nothing else">
 
 ## Rollback
-- **How:** <revert this commit / flag off — one line, no ceremony>
-- **Data safety:** <does reverting lose/duplicate anything?>
-
-## Owner / approval
-- **Fix owner (on the hook until prod is confirmed):** @<handle> — the git user; confirm if the host handle differs
-- **Approver:** @<handle> (or "self-serve, on-call notified")
-- Set as assignee/reviewer so the ping actually lands ([host-cli.md](../references/host-cli.md)).
-
-## Hotfix test plan
-
-### Automated (ran before commit)
-- [x] <the failing repro, now passing — command + result>
-
-### Post-deploy verification (do immediately after merge)
-- [ ] <the prod check that confirms the symptom is gone>
-- [ ] <a guard check that the fix didn't break the adjacent path>
+- **How:** <revert this commit / flag off>
+- **Costs us:** <does reverting lose or duplicate anything?>
 ```
 
-**Emphasis:** **root cause, rollback, the repro that proves it.** No feature narrative, no release notes. Follow-up (the "proper" fix / regression test on the integration branch) gets a one-line pointer, not a section.
+If the root cause is not yet proven, say so — write `unconfirmed` and describe what you ruled out. A guessed root cause is worse than an admitted gap (see `debug`).
+
+## Add a section only when it applies
+
+| Section | Add it when |
+|---|---|
+| `## Why not wait` | the urgency is not obvious from the symptom alone |
+| `## Post-deploy checks` | someone must confirm on prod after merge — list the checks |
+| `## Follow-up` | a proper fix or regression test is owed on the next release — one line, plus an issue number |
+
+Owner: the git user who made the fix, on the hook until prod is confirmed. Confirm the host handle if it differs from `user.name`, and set them as assignee/reviewer — a body mention does not reliably page anyone ([host-cli.md](../references/host-cli.md)).

@@ -196,8 +196,11 @@ After approval:
 ```
 A) Recommended: Proceed → write-spec (the spec carries the design into reviewable form)
 B) Re-open the design — a decision still feels soft; go back into grill, then return to this gate
-C) Something else (I will type it)
+C) File an issue first → **issue** (record the intent as a trackable issue, then come back to this gate)
+D) Something else (I will type it)
 ```
+
+On **C**: hand off to **issue**, then return to this same gate — the user may then pick A, or file a second issue. The issue skill never advances on its own.
 
 ## Rationalization Table
 

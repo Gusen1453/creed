@@ -1,50 +1,43 @@
-# MR template — Verification handoff ("ready for QA")
-
-**Intent:** a change that needs **independent verification by someone else** before it is accepted. Any branch/target naming can express this (feature or fix → an integration / QA / staging / dev branch — whatever this repo calls it).
-
-**Reader:** the verifier who does **not** have your branch and was not in your head.
-**Update semantics:** short-lived. Regenerate from `baseline..HEAD` on every push. No hand-curated prose to preserve.
-
 ---
+name: Ready for QA
+about: A change that someone else has to verify before it is accepted
+reader: The verifier — they do not have your branch and were not in your head
+update: Short-lived. Regenerate the whole body from `baseline..HEAD` on every push; nothing here is hand-curated.
+---
+
+**When this fits:** a feature or fix heading into whatever branch this repo verifies on — `test`, `dev`, `staging`, `qa`, `develop`. Judge by the role the branch plays, not its name.
 
 ## Title
 
 `type(scope): summary` — Conventional, ≤ ~50 chars, outcome verb first.
 
-## Body
+## Body — fill all four
 
 ```markdown
-## Summary
-- What this changes and **why** (the user-visible outcome, not the file list)
-- 1–3 bullets covering ALL commits vs the integration baseline
+## What changed
+- <the user-visible outcome and why — covering every commit in this MR, not just the last one>
 
-## Impact surface (what touched what)
-- **Modules / screens / endpoints affected:** <list>
-- **User-facing behavior change:** <before → after>
-- **Config / flag / migration:** <name, default, how to toggle> or "none"
+## Where to check
+- **Environment:** <test env / branch deploy / the flag to switch on>
+- **Account / data:** <login, fixture, seed command>
 
-## How to verify (do this)
-- [ ] <step a verifier runs — URL / command / click path → expected result>
-- [ ] <the failure/edge case to also try — empty input, bad value, double-submit…>
-- [ ] <the regression you most fear this could cause, and how to check it>
+## What to verify
+- [ ] <click path or command → what you should see>
+- [ ] <the edge case: empty input, bad value, double submit…>
+- [ ] <the nearby thing this could have broken>
 
-## Test data / environment
-- **Where:** <verification env / branch deploy / feature flag on>
-- **Data to use:** <account, fixture, seed command>
-
-## Known limits (not in this MR)
-- <what this deliberately does NOT do — so the verifier doesn't file it as a bug>
-
-## Test plan
-
-### Automated (ran before commit)
-- [x] <command actually run before commit — evidence, not a to-do>
-
-### Acceptance (by the verifier)
-- [ ] <observable result the verifier confirms>
-- [ ] <the edge case from "How to verify" passes>
+## Already ran
+- [x] <command that actually ran, and its result>
 ```
 
-> Honesty rule: nothing in Automated unless it truly ran. A check you didn't run goes under Acceptance as "to verify".
+**Honesty rule:** `Already ran` is evidence, not a plan. A check you did not run belongs in `What to verify`.
 
-**Emphasis:** **verification steps + impact surface + known limits.** The verifier's only question is "what do I click to prove this works, and what might it have broken." Rollback is not the point here — not accepting the change is the rollback.
+## Add a section only when it applies
+
+| Section | Add it when |
+|---|---|
+| `## Behaviour change` — before → after | existing behaviour moved, so the verifier's memory is now wrong |
+| `## Config / migration` — name, default, who sets it | there is a new env var, flag, or DB migration |
+| `## Out of scope` | something looks unfinished on purpose — say so, or it gets filed as a bug |
+
+Leave a section out entirely rather than writing "none" — an empty heading is noise the verifier has to read.

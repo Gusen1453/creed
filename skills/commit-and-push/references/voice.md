@@ -1,49 +1,36 @@
-# Voice — the copy chain
+# Voice — who each piece of copy is for
 
-Every copy artifact this skill produces — **commit message · MR description · tag message · release notes** — is *one voice at a different distance from the work*. This file is the single source for that voice; the stage references ([commit.md](commit.md), [mr-pr.md](mr-pr.md), [release.md](release.md)) point here instead of restating it.
+This skill writes four things: **commit message · MR description · tag message · release notes**. Same work, four readers. This file is the single source for that; the stage references ([commit.md](commit.md), [mr-pr.md](mr-pr.md), [release.md](release.md)) point here instead of restating it.
 
-## The chain
-
-```
-query ──► commit ──► MR ──► tag/release
-  ╰─────────── anchor ──────────╯
-```
-
-Each layer inherits primarily from its **direct upstream**, not from the query. The query is the chain's *anchor* — it fixes the register and proves the human behind the work — but it is **not** every layer's direct source. Writing a release note straight from the query is as wrong as writing it from the commit list.
-
-| Layer | Reader | Answers | Inherits from (direct) | Grammar |
-|-------|--------|---------|------------------------|---------|
-| **commit** | future you, `git blame` | *why this changed* | **the query** (distance ≈ 0) | imperative |
-| **MR** | the reviewer/verifier/releaser | *does it work, what could it break* | **its commits** | declarative, to a peer |
-| **tag** | `git log --decorate`, the release UI | *what this version is* | **the MRs it packages** | noun phrase |
-| **release** | the product's users, on-call — who may never read a PR | *what this means for me, how to live with it* | **its MRs** | plain narrative |
-
-**Release notes should sound like the MRs, not like the query.** The MR already did one de-jargoning pass for a technical peer; the release is a second pass for a user. By the time work reaches a release it may span weeks and many separate queries — expecting one query's phrasing to survive to the end is a category error.
+| Writing | For | Should answer | Written from |
+|---|---|---|---|
+| **commit** | future you, running `git blame` | why this changed | the user's own request — almost their words |
+| **MR** | the person who verifies or ships it | does it work, what could it break | its commits |
+| **tag** | anyone reading `git log --decorate` | what this version is | the MRs it packages |
+| **release notes** | users and on-call, who never read the MR | what this means for me | its MRs |
 
 ## Two rules
 
-1. **Facts aggregate up the chain, and must stay traceable.** Every release-note item traces to an MR; every MR claim traces to a commit. Re-derive numbers each layer (`git rev-list --count`), never copy a stale count forward.
-2. **Voice normalizes along the chain, and must stay recognizable.** Same speaker, re-voiced per reader — *one voice, four grammars*. Do **not** paste the lower layer's text into the upper (that is the changelog collapse, the same failure as copy-pasting commit titles into release notes).
+1. **Re-derive the facts at each step, don't copy them.** Every release-note line traces back to an MR, every MR claim to a commit. Recount with `git rev-list --count` rather than carrying a number forward — a stale count is a wrong claim.
+2. **Re-say it in the new reader's terms, don't paste.** Pasting commit titles into release notes is how a release note becomes a changelog. By the time work ships it may span weeks and many requests, so the release notes should sound like the MRs, not like the original request.
 
-## Where the register comes from
+## Where the wording comes from
 
-The register (language + tone) is sampled at the **anchor**, then carried along the chain:
+Use the first of these that exists:
 
-1. **This conversation, this feature's whole lifetime** — every round where the user described the work, corrected the wording, or set direction (not just the last turn). Short, direct, says the outcome; concrete nouns and verbs.
-2. **Cross-session memory file** — a settled register from prior work on this repo.
-3. **The existing artifact of the same kind** (the last release's notes, the prior MR style) — for cold starts, when there is no live query but a house style exists.
-4. **Fallback: the hard rules below** — only when none of the above exist (e.g. the user just said "commit this").
+1. **This conversation** — how the user described the work across the whole feature, not just the last message.
+2. **Memory** — a settled style from earlier work on this repo.
+3. **The last artifact of the same kind** — the previous release's notes, the prior MR's shape.
+4. **Nothing to go on** → stay neutral and plain. Do not invent a persona.
 
-**Why not sample `git log --author`:** in AI-collaborator repos the history is mostly AI-written long clauses (e.g. this repo's `fix(skills): make skill copy English-only Translate…`); sampling it trains the obscurity right back in. Prefer level 1; descend only when a level is absent.
+**Don't sample `git log --author`.** In AI-collaborator repos the history is mostly AI-written long clauses (this repo has `fix(skills): make skill copy English-only Translate…`) — sampling it trains the padding right back in.
 
-**What "like the user" means — and what it does NOT:**
-- It does **not** mean inventing a persona; with no signal, stay neutral and stable (level 4).
-- It does **not** override the hard rules — the format gates and the checklist below beat any sampled phrasing.
+## Say it plainly (applies to every piece of copy)
 
-## Non-obscuring checklist (hard — applies to every copy artifact)
+- One line, ≤ ~50 chars of substance
+- Start with the **result verb** — add, ship, route, expose, fix, drop — not a stack of adjectives
+- No vague verbs ("improve", "better", "make nicer"), no piled modifiers, no list of file names
+- `type` = the main user-visible intent; don't stack every type that applies
+- Language follows the user (Chinese or English); the `type(scope):` format does not bend
 
-- Subject ≤ ~50 chars of substance; one line
-- Start with the **outcome/result verb** (add, ship, route, expose, fix, drop…), not an adjective stack
-- No piled modifiers; no vague verbs ("improve", "better", "make nicer"); no file-name dump
-- `type` = primary user-visible intent (don't stack every type)
-- Match the repo's recent style (language included — Chinese or English as the user writes)
+**One exception — bug issue titles.** A symptom title ("crashes when exporting an empty row") is correct and must not be rewritten into result-verb form ("fix export crash"), which describes a fix that hasn't happened yet. See the `issue` skill's title rule.

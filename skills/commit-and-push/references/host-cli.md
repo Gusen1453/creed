@@ -48,9 +48,11 @@ gh release edit <version> --notes-file "$NOTES"      # GitLab: glab release crea
 ## Detect host + repo roles
 
 ```bash
-git remote get-url origin            # github.com → gh ; gitlab.com or self-hosted → glab
+git remote get-url origin            # the repo under discussion
 git symbolic-ref refs/remotes/origin/HEAD   # the default branch, without guessing main/master
 ```
+
+**Which host is it?** Ask each CLI to resolve *this repo* — `gh repo view` exits 0 → GitHub; `glab repo view` exits 0 → GitLab; neither → unknown host. Do not read the hostname's spelling (a self-hosted GitLab is usually named after the company, not the product), and do not use `glab api version` — it ignores `origin` and answers 0 even inside a GitHub repo. (Same rule as the `issue` skill's [templates.md](../../issue/references/templates.md) §2.)
 
 Roles, not names: identify which branch is **integration** (`test`/`dev`/`staging`/`qa`/`develop`…), which is **production** (`main`/`master`/`pro`/`prod`/`release`/`production`…). The MR's own `target_branch` is the ground truth for *this* MR.
 
@@ -109,10 +111,13 @@ A trailing-newline difference is host normalization — fine. Anything else is a
 |---|---|---|
 | `glab api -f "description=@file.md"` | `--raw-field`/`-f` does **not** expand `@file` → writes the literal string `@file.md`, **exit 0** (silent data loss) | `-F`/`--field` expands `@file`; or just use `glab mr update -d` |
 | `glab api --input body.json` without a content-type | HTTP **415** (`The provided content-type '' is not supported`), and the error JSON mixes into stdout so a `JSON.parse` blows up again | add `-H "Content-Type: application/json"` |
+| Trusting `exit 0` after writing a body or release notes | The `-f @file` trap exits 0 having written the wrong bytes. Exit codes do not prove content landed | re-read and `diff` against your file (§Read back) |
 | `glab mr list --state open` | `Unknown flag: --state` | omit it (default = open) or use `-A` for all |
 | `glab mr view <branch>` on a many-MR branch | `merge request ID number required` | `mr list --source-branch` + `-A` |
 | `git rev-list --count --no-merges` | undercounts; won't match the host's "N commits" | `git rev-list --count` (merges included) |
 | `git push` in a non-interactive shell | `Cannot prompt because user interactivity has been disabled` / `unable to get password` | `gh auth setup-git` (wires gh's credential helper into git for HTTPS), then retry |
+| `git push` and expecting the tag to go with it | Tags are not pushed with the branch, so the release has no remote target | `git push origin <tag>` separately |
+| `gh release create` on a tag that already exists | Errors out | `gh release edit`. (GitLab's `create` updates silently — do it on purpose) |
 | `@file`/`-d` value with a leading space | e.g. `-F 'topics= ["a"]'` — the space is part of the value, sent as a string | keep `=` immediately before `@`/the value |
 
 ## gh / glab api field semantics (the underlying rule)

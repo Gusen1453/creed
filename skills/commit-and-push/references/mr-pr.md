@@ -25,30 +25,32 @@ git diff --stat origin/<base>...HEAD
 
 ### Pick the intent, then the template
 
-The description's emphasis depends on **what the MR is for** — a verifier's verification handoff, a release promotion, and an on-call incident hotfix are different documents. Branch names are a **hint, not the rule**: infer the *intent* from source → target plus the repo's naming, and fall back to the generic template when it's unclear.
+The description's emphasis depends on **who reads it** — a verifier taking your change, a deployer shipping a release, and an on-call approving a hotfix need different documents. Branch names are a **hint, not the rule**: work out what the MR is doing from source → target plus the repo's naming, and fall back to the generic template when it's unclear.
 
-| Intent (what the MR is doing) | Kind | Template | Emphasis |
+| What the MR is doing | Name it by | Template | The four required sections |
 |---|---|---|---|
-| **Change → independent verification** — a feature/fix awaiting someone else's sign-off, into an integration / QA / staging / dev branch | verification handoff | [feature-to-integration.md](../assets/feature-to-integration.md) | impact surface + how-to-verify + known limits |
-| **Promotion → production** — an already-verified line of work shipping into prod | release promotion | [integration-to-production.md](../assets/integration-to-production.md) | release notes by feature + risky surfaces + deploy order + rollback |
-| **Fix → production now** — an out-of-band fix that skips the verification stage | incident hotfix | [hotfix-to-production.md](../assets/hotfix-to-production.md) | root cause + rollback + the repro that proves it |
-| none of the above (e.g. a docs/chore branch, or intent unclear) | generic | the inline template below | summary + Test plan |
+| A feature/fix that **someone else has to verify** — into the integration / QA / staging / dev branch | ready for QA | [feature-to-integration.md](../assets/feature-to-integration.md) | what changed · where to check · what to verify · already ran |
+| **Already-verified work going to production** | ship to production | [integration-to-production.md](../assets/integration-to-production.md) | what ships · deploy steps · rollback · sign-off |
+| **A fix that has to reach production now**, skipping verification | hotfix | [hotfix-to-production.md](../assets/hotfix-to-production.md) | what broke · root cause · the fix and why it's safe · rollback |
+| none of the above (a docs/chore branch, or unclear) | generic | the inline template below | summary + Test plan |
+
+Each template has a required core (fill all four) plus an "add only when it applies" list. **Leave an inapplicable section out** rather than writing "none" — an empty heading is noise for the reader.
 
 **Do not match on branch names literally.** The production branch may be `main`, `master`, `pro`, `prod`, `release`, `production`, …; the integration branch may be `test`, `dev`, `staging`, `qa`, `develop`, …. Decide **which branch plays which role** in *this* repo first (from its naming, README, or the MR's own `target_branch`), then pick the intent:
 
-- source is a feature/fix branch, target is the **non-production integration** role → verification handoff
-- source is the **integration** role, target is the **production** role → release promotion
-- source is a fix, target is the **production** role, and it bypasses integration → incident hotfix
+- source is a feature/fix branch, target is the **non-production integration** role → ready for QA
+- source is the **integration** role, target is the **production** role → ship to production
+- source is a fix, target is the **production** role, and it bypasses integration → hotfix
 - otherwise → generic
 
-Detect once per MR (§4.5 already has `source`/`target`); if the roles are ambiguous, use the generic template and say why. **Every template inherits the hard rules below** (Conventional title, honesty rule on `Automated`, no secret/env values). The release/hotfix templates replace the generic `## Test plan` with their own verification section — allowed; the `Automated` honesty rule still applies.
+Detect once per MR (§4.5 already has `source`/`target`); if the roles are ambiguous, use the generic template and say why. **Every template inherits the hard rules below** (Conventional title, honesty rule on what already ran, no secret/env values). The ship-to-production and hotfix templates replace the generic `## Test plan` with their own verification section — allowed; the honesty rule still applies.
 
 ### Title
 
 - One line, `type(scope): summary` — **Conventional, hard gate** (type from standard enum, scope from repo convention)
 - `type` = primary user-visible intent (don't stack every type)
 - Summary = **why / outcome**, ≤ ~50 chars of substance, outcome verb first, no stacked modifiers
-- Language as the user writes (Chinese / English) — the [voice.md](voice.md) chain (MR inherits register from its commits, not directly from the query)
+- Language as the user writes (Chinese / English) — the MR is written from its commits, not straight from the user's request ([voice.md](voice.md))
 - **Release/hotfix flows** may instead name the release/symptom (`release(vX.Y.Z): …` / `fix(scope): <symptom>`), per their template
 
 ### Description template — generic fallback
@@ -60,22 +62,30 @@ Detect once per MR (§4.5 already has `source`/`target`); if the roles are ambig
 
 ## Test plan
 
-### Automated (ran before commit)
-- [x] <command/check already executed before this commit — evidence, not a to-do>
-- [x] <another command that actually ran>
+### Already ran
+- [x] <command that actually ran, and its result — evidence, not a to-do>
 
-### Acceptance (user/product)
-- [ ] <manual step for a human/PM to verify — what they should see/feel>
-- [ ] <another scenario to demo>
+### To verify
+- [ ] <manual step for a human to check — what they should see>
 ```
 
 **Test plan rules:**
 
-- Checklist items must be **doable** by a reviewer (command, URL, scenario) — not "run the tests" with no target
-- **Two blocks, one intent:** `Automated (ran before commit)` lists scripts that **actually ran** (checked, with the command); `Acceptance (user/product)` lists open manual steps for a human to verify — what they should see/feel
-- **Honesty rule:** nothing goes in the Automated block unless it was actually run before commit. A check that didn't run either stays unmarked or moves to Acceptance as "to verify / to verify"
-- Map items to real risks in *this* diff (routing, config, compatibility, prompts, migrations, …)
-- Prefer behavior checks over "coverage went up"
+- Every item must be **doable** by the reader — a command, a URL, a click path. "Run the tests" with no target is not an item
+- **`Already ran`** is what actually ran before the commit; **`To verify`** is what is still open for a human
+- **Honesty rule:** nothing goes under `Already ran` unless it truly ran. A check you skipped moves to `To verify`
+- Tie items to the real risks in *this* diff (routing, config, compatibility, prompts, migrations, …)
+- Prefer behaviour checks over "coverage went up"
+
+### Issue linkage (closing keyword)
+
+When the work came from a filed issue, add a closing keyword so the issue closes itself on merge.
+
+- **Preferred source: the number this session already has** — if the issue was filed (or read) in this conversation, use that `<N>`.
+- **Fallback: the branch name**, matching either `#<N>` anywhere or a leading `<N>-` (the shape the `issue` skill suggests is `123-fix-export-empty-row`, **no `#`** — a `#`-only matcher would never fire).
+- **Neither present → do not guess.** Say the linkage could not be determined rather than inventing a number.
+
+Write it in the description (both hosts accept `Closes #<N>`; GitLab also accepts `Closes #<N>` and treats it the same).
 
 **Do not** create a new MR/PR without an explicit yes — see §4.5.
 If the remote prints a "create merge request" URL after push, include it in the report.
@@ -96,7 +106,7 @@ Use the matching template from [assets/](../assets/) (or the generic template ab
 
 Detect whether an MR/PR already exists for **this branch on origin**. Result drives the action:
 
-1. **Detect** the host from `git remote get-url origin` (GitHub → `gh`, GitLab → `glab`; unknown host → skip to paste-ready copy only).
+1. **Detect** the host by asking each CLI to resolve `origin` — `gh repo view` exits 0 → GitHub, `glab repo view` exits 0 → GitLab, neither → unknown host (skip to paste-ready copy only). Do not judge by the hostname's spelling (self-hosted GitLab rarely says "gitlab"), and not by `glab api version` (it ignores `origin`) ([host-cli.md](host-cli.md) §Detect host).
 2. **List MR/PRs for the current branch — including merged/closed** (default lists only open; a merged MR must still be visible or you will wrongly offer to create a duplicate):
 
    ```bash
@@ -163,9 +173,9 @@ Detect whether an MR/PR already exists for **this branch on origin**. Result dri
 
 **Update semantics — match the MR's kind, don't blindly rewrite:**
 
-- **verification handoff (change → verification)** — short-lived: full rewrite of title + body from `baseline..HEAD`. Manual edits are overwritten.
-- **release promotion (promotion → production)** — long-lived: **incremental re-derivation** — preserve the existing prose sections and hand-curated tables, recompute only stale numbers (commit/file counts), add a section for the new commits, append acceptance rows. **Never** regenerate from the commit list, which collapses a curated release note into a changelog.
-- **incident hotfix (fix → production)** — one-shot: regenerate, terse, single commit.
+- **ready for QA** — short-lived: full rewrite of title + body from `baseline..HEAD`. Manual edits are overwritten.
+- **ship to production** — long-lived: keep the existing prose and hand-written tables verbatim, add a section for the new commits, append acceptance rows, and recompute only the stale numbers (commit/file counts). **Never** regenerate from the commit list, which collapses a curated release note into a changelog.
+- **hotfix** — one-shot: regenerate, terse, single commit.
 - If unsure which kind, ask.
 
 **Some content cannot be derived from git** — e.g. a commit-attribution table keyed by feature/author, an **`@handle` owner list**, or a hand-written release narrative. Never auto-generate these; carry them forward from the existing description or ask.

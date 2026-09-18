@@ -41,12 +41,14 @@ npx skills add -y -g Gusen1453/creed
 
 ```
 using-creed
-  → explore? → grill → write-spec → solid? → write-plan
+  → explore? → grill → issue? → write-spec → solid? → write-plan
   → tdd (+ test-design)
   → debug? → review → commit-and-push
 ```
 
 `explore?` = when the task modifies or references existing code (refactor / legacy / reuse); harvest repo facts + verify the user's claims before grill.
+
+`issue?` = at grill's exit gate, one option files the intent as a trackable issue before the spec (also available cold-start: "记一下这个 bug").
 
 `solid?` = only when the slice adds modules / ports / IO edges.
 
@@ -67,6 +69,7 @@ using-creed
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **explore**    | Task modifies/references existing code — harvest repo facts, verify the user's technical claims, deliver a fact checklist so grill asks only judgment calls |
 | **grill**      | Align on design; one question at a time; recommend with user-visible upside/cost                                                                            |
+| **issue**      | Record something to track later — templates (bug/feature/custom), duplicate search first, never creates labels, asks before filing                          |
 | **write-spec** | Approved design → scenario-driven product spec (what/why; mentoring-friendly)                                                                               |
 | **solid**      | After spec (or mid-dev): lock boundaries / fix mock piles; not the main skill while grilling product                                                        |
 | **write-plan** | Approved spec → bite-sized TDD tasks with exact files                                                                                                       |
