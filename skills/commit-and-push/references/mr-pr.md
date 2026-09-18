@@ -96,7 +96,7 @@ Use the matching template from [assets/](../assets/) (or the generic template ab
 
 Detect whether an MR/PR already exists for **this branch on origin**. Result drives the action:
 
-1. **Detect** the host from `git remote get-url origin` (GitHub → `gh`, GitLab → `glab`; unknown host → skip to paste-ready copy only).
+1. **Detect** the host by asking each CLI to resolve `origin` — `gh repo view` exits 0 → GitHub, `glab repo view` exits 0 → GitLab, neither → unknown host (skip to paste-ready copy only). Do not judge by the hostname's spelling (self-hosted GitLab rarely says "gitlab"), and not by `glab api version` (it ignores `origin`) ([host-cli.md](host-cli.md) §Detect host).
 2. **List MR/PRs for the current branch — including merged/closed** (default lists only open; a merged MR must still be visible or you will wrongly offer to create a duplicate):
 
    ```bash

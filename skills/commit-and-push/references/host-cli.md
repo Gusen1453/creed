@@ -48,9 +48,11 @@ gh release edit <version> --notes-file "$NOTES"      # GitLab: glab release crea
 ## Detect host + repo roles
 
 ```bash
-git remote get-url origin            # github.com → gh ; gitlab.com or self-hosted → glab
+git remote get-url origin            # the repo under discussion
 git symbolic-ref refs/remotes/origin/HEAD   # the default branch, without guessing main/master
 ```
+
+**Which host is it?** Ask each CLI to resolve *this repo* — `gh repo view` exits 0 → GitHub; `glab repo view` exits 0 → GitLab; neither → unknown host. Do not read the hostname's spelling (a self-hosted GitLab is usually named after the company, e.g. `code.comein.cn`), and do not use `glab api version` — it ignores `origin` and answers 0 even inside a GitHub repo. (Same rule as the `issue` skill's [templates.md](../../issue/references/templates.md) §2.)
 
 Roles, not names: identify which branch is **integration** (`test`/`dev`/`staging`/`qa`/`develop`…), which is **production** (`main`/`master`/`pro`/`prod`/`release`/`production`…). The MR's own `target_branch` is the ground truth for *this* MR.
 
