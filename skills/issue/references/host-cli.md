@@ -5,7 +5,7 @@ Fixed commands for issue create / search / update / delete, plus the traps that 
 - **`[measured]`** — the command was actually run and its output compared.
 - **`[source-checked]`** — read from the CLI's source or `--help`; not run.
 
-Hosts where the measurements were taken: **gh 2.97 with GitHub `Gusen1453/creed`** and **glab 1.114 with a self-hosted GitLab, `code.comein.cn`, project `llm/opencode`**. Carry these versions and the markers into any file that quotes these facts — **never restate a `[source-checked]` fact as `[measured]`**.
+Hosts where the measurements were taken: **gh 2.97 against a public GitHub repo** and **glab 1.114 against a self-hosted GitLab instance** (company-hosted, so its hostname does not contain "gitlab"). Carry these versions and the markers into any file that quotes these facts — **never restate a `[source-checked]` fact as `[measured]`**.
 
 Shared gh/glab mechanics live in [commit-and-push's cheatsheet](../../commit-and-push/references/host-cli.md): credential setup (`gh auth setup-git`), `glab api`'s `-f` vs `-F`, and the read-back-after-write rule. Do not duplicate them here.
 
@@ -85,7 +85,7 @@ gh   label list -R <owner>/<repo> --json name -L 200  # -L defaults to 30 — ra
 
 `[measured]` Both paginate at **30** by default. Leaving the default on a repo with more labels hides valid ones, and a legitimate label then reads as "no match" with nothing to show anything went wrong.
 
-A repo with **zero** labels is normal (`llm/opencode` is one): the draft carries no label at all, and nothing is created.
+A repo with **zero** labels is normal (the measured GitLab host is one): the draft carries no label at all, and nothing is created.
 
 ## §5 Read back after writing — and expect normalisation
 
@@ -117,7 +117,7 @@ glab issue update <N> -R <group>/<repo> -d "$(cat body.md)"
 
 (As in §2, `-R` is only needed when the target is not the current worktree's `origin`.)
 
-`[measured]` Both write the body correctly (GitLab: backticks, `→`, CJK all survive). **Neither keeps any version history** — an edit overwrites and there is no "previous body" to recover, on either host. So the caller must save the old body itself before editing (`create.md` §2b does exactly that). Also measured: the **`N-` / `#N` link key does not exist anywhere in either repo's branch names** — `Gusen1453/work` on GitHub, `feat/mcp-loading` and `develop/tool-harness-hooks` on GitLab. The issue number therefore has to be carried forward from the session, not recovered from the branch.
+`[measured]` Both write the body correctly (GitLab: backticks, `→`, CJK all survive). **Neither keeps any version history** — an edit overwrites and there is no "previous body" to recover, on either host. So the caller must save the old body itself before editing (`create.md` §2b does exactly that). Also measured: the **`N-` / `#N` link key does not exist in the branch names surveyed** — the GitHub side's branches and the GitLab side's (`feat/…` and `develop/…` style) both carry no issue number. The issue number therefore has to be carried forward from the session, not recovered from the branch.
 
 ## §7 Cleaning up a mistake — only GitHub lets you
 

@@ -44,7 +44,7 @@ glab repo view > /dev/null 2>&1; echo $?   # 0 → GitLab
 
 **Use a probe that reads `origin`.** `[measured]` `glab api version` is *not* one — it returns 0 inside a GitHub repo, because it only asks the instance this machine is configured for and never looks at the remote. Using it would label a GitHub repo "GitLab" whenever `gh` happens to be logged out, and would send `-R` commands to the configured instance instead of the one `origin` points at — filing a public issue into the wrong place.
 
-**Do not decide by the hostname's spelling.** A self-hosted GitLab is usually named after the company, not the product — `code.comein.cn` is a real example. A "does the URL contain gitlab" test would call that repo unrecognised and refuse to file, even though the CLI works against it.
+**Do not decide by the hostname's spelling.** A self-hosted GitLab is usually named after the company, not the product — a hostname like `git.example.com` says nothing about which CLI answers for it. A "does the URL contain gitlab" test would call that repo unrecognised and refuse to file, even though the CLI works against it.
 
 **Do not infer the host from which template directory happens to exist**, either. Mirrors, forks and CI-ported repos routinely carry a stray `.github/` inside a GitLab project; going by directory would pick GitHub's command and GitHub's copy-in path for a GitLab repo. The host decides everything downstream: which template directory to read, which CLI to invoke, and where a copy-in would write.
 
@@ -57,7 +57,7 @@ glab auth status    # silent/error → glab has no credentials
 
 If a CLI has no credentials, the host is **not** unrecognised — it is unknowable from here. Say which CLI needs attention, and hand over the draft **plus the command for whichever host the user names** (`create.md` §6). Do not guess the host to fill the gap.
 
-Note the limit of this check: `auth status` says whether credentials exist, not whether they are for *this* instance. Logged into gitlab.com while `origin` is on `code.comein.cn` reads as "no usable credentials for this repo" — which lands on the safe side (hand over the draft) but is worth saying out loud rather than reporting as an unrecognised host.
+Note the limit of this check: `auth status` says whether credentials exist, not whether they are for *this* instance. Logged into gitlab.com while `origin` points at a self-hosted instance reads as "no usable credentials for this repo" — which lands on the safe side (hand over the draft) but is worth saying out loud rather than reporting as an unrecognised host.
 
 The same `origin` is what you state in the confirmation (`create.md` §3).
 

@@ -17,7 +17,7 @@
   - **双宿主能力确实不同** ✓，且`[实跑]`两侧默认都只列 open —— 搜重必须显式带上"含已关闭"。
   - **`--template` 这条 CLI 路径用不了** ✗（关键结论）`[实跑]`。⇒ 成熟路径是自己读模板文件、填好、走 `--body-file`（gh）/ `-d`（glab）；§3 的"仓内模板优先"照此实现。
   - **搜重不会把 PR 搜进来** ✗ `[核源码]`，且`[实跑]`两侧搜索都覆盖**正文**。
-  - **两侧现在都没有模板目录** ✗；creed 有 GitHub 默认标签，`llm/opencode` 标签数为 0 `[实跑]`。
+  - **两侧现在都没有模板目录** ✗；creed 有 GitHub 默认标签，另一侧自建 GitLab 的仓标签数为 0 `[实跑]`。
   - **"标签只映射已有、绝不新建"只在 gh 上自动成立** ✗ `[实跑]` —— GitLab 会把不存在的标签直接建出来，所以那边必须先查名单。
   - **"正文逐字落地"不成立** ✗ `[实跑]` —— 两侧都有已知的换行规范化。⇒ 验收口径是"除已知规范化外一致"。
   - **Conventional Commits 管不到 issue 标题** ✗ —— 所以"套不套 `type(scope):`"是自由决策，不是事实。
@@ -26,7 +26,7 @@
   - 落盘模板需要写业务仓并与**当前分支**绑定，而分支可能本身有问题（`main`/detached） → 对策：分支异常时跳过落盘，**自己读模板文件内容**（不用 CLI 的 `--template`，实测非交互走不通）或直接拼 body 发出去（§2 边界 2）。
   - 一次草稿可能在创建前就被发现与已有 issue 重复 → 对策：搜重命中即问"更新还是另开"（§2 边界 1）。
   - 草稿在**会话里**，但要发出去的正文常含多行中文、反引号、`→` —— 直接内联进命令会有引号/转义问题 → 对策：**只在用户点头、真正要读/写远端的那一刻**把正文落到临时文件，走文件通道；写完即删（§2 边界 1、边界 4）。草稿本身不预先落盘。
-  - 本仓现有分支名是 `Gusen1453/work` 这类，**不带 issue 号** —— "按仓内惯例带 issue 号"在本仓并不成立 → 对策：分支名只是**建议**，默认形状 `<issue号>-<短 slug>`；仓内有自己惯例时以仓内为准（§3 In）。
+  - 本仓现有分支名是 `<作者>/<主题>` 这类，**不带 issue 号** —— "按仓内惯例带 issue 号"在本仓并不成立 → 对策：分支名只是**建议**，默认形状 `<issue号>-<短 slug>`；仓内有自己惯例时以仓内为准（§3 In）。
 
 ## 1. One-liner（board slide）
 
@@ -123,7 +123,7 @@
 | 触发方式 | A) 常驻为 grill 网关的一个**选项**（永不自动执行） | B) 只在探到搁置信号时给；C) 强制为默认停靠站 | 常驻"选项"不是常驻副作用：点头才动。B 依赖"搁置信号被说出来"，而这恰恰常被一带而过；C 会让小重构、纯内部改造也过一道 issue，待办池被噪音稀释——与"可追踪"的目标相反。 |
 | 误触发防线 | A) 创建**一律先问**；主动开口的判据、条件打架的裁决、会话内冷却，全部以 §3 那一节为准 | B) 只在用户明说"提 issue"时给选项；C) 探测到 bug 迹象就自动建议 | 主动开口要看"用户有没有把这件事挂起来"，而不是背一句短语表：近似句（"这个先放着 / 回头处理"）与显式句一样算。C 是最可能造成误触发的做法（用户只是在讨论、连设计都没定）；B 会漏掉"往后推"这一类真实意图，而它恰恰是待办最自然的说法。 |
 | 草稿落盘时机 | A) 草稿留在会话里，只在**要写/读远端的那一刻**落临时文件、完事即删 | B) 草稿一开始就写临时文件 | A 少一次无谓的仓内写入，"用户说不发"时工作区零残留；代价是内联传正文的平台上要先落一次文件（GitLab 的 `update --description`），这一步在真正要发的时候才发生，不会白做。 |
-| 分支名建议的依据 | A) 默认 `<issue号>-<短 slug>`，仓内有命名惯例时以仓内为准 | B) 一律沿用本仓现有命名形状 | 本仓现有分支名（`Gusen1453/work`）不带 issue 号，照抄就丢了追踪价值；A 让建议默认有用，同时不越权改一个已经有规矩的仓。 |
+| 分支名建议的依据 | A) 默认 `<issue号>-<短 slug>`，仓内有命名惯例时以仓内为准 | B) 一律沿用本仓现有命名形状 | 本仓现有分支名（`<作者>/<主题>` 形状）不带 issue 号，照抄就丢了追踪价值；A 让建议默认有用，同时不越权改一个已经有规矩的仓。 |
 | 模板清单 | A) 三档（bug / feature / custom），纯 `.md` | B) 只留 bug / feature；C) `.md` + GitHub `.yml` form | 三档给常见需求都有归处，杂项不必塞进 bug 模板；同一份 `.md` 换站只换个目录名（GitHub 的 `.github/ISSUE_TEMPLATE/` ↔ GitLab 的 `.gitlab/issue_templates/`），格式和正文都不用改。代价：GitHub 上放弃 form 的必填强校验，质量靠模板正文引导。 |
 | 模板归属 | A) 技能 `assets/` 是源头；**可选**落盘到目标仓 | B) 不写目标仓；C) 只在目标仓，技能不管 | 落盘是给**人和网页端**用的（网页端要等这三个文件被提交并推上去，见 §2 边界 3）；agent 自己走"读文件拼正文"那条路（`--template` 在非交互下走不通，§0 实测），所以落盘不是必须的。代价是落盘要写仓内文件并需提交，所以必须用户点头。C 会把模板的一致性交给每个仓各自维护。 |
 | 落盘写几个目录 | A) 只写本仓宿主对应的那一个目录，三档共三个文件 | B) 两个目录各放一套（六个文件） | 在一个 GitHub 仓里放一份 GitLab 模板是死文件：没人读、还要被 commit-and-push 一起提交。A 让落盘只产出真正用得上的文件；代价是将来这个仓迁到 GitLab 时得再落一次盘。 |
@@ -137,7 +137,7 @@
 
 ## 5. Acceptance（demo / test language）
 
-> **本机可演示的是 GitHub 侧**（本仓 origin 是 GitHub）**与一台自建 GitLab**（`code.comein.cn` 的 `llm/opencode`）。标签含义：
+> **本机可演示的是 GitHub 侧**（本仓 origin 是 GitHub）**与一台自建 GitLab**（公司自建站上的一个仓）。标签含义：
 > - `[需造境]` —— 本机跑得动，但要先把环境凑出来（做法写在条目里）；**技能级验收全是这一类**，因为技能还没写；
 > - `[静态]` —— 属技能文件文本，靠读文件判定，不靠跑；
 > - `[GitLab·纸上]` —— 这条行为没在第二站试过（本站已试，见 §0）。
@@ -152,7 +152,7 @@
 - [ ] 场景：草稿与一条已有 issue 高度重合 → 用户看到命中项与"更新/另开/取消"三选 → observable：选"更新"时 issue 条数不变、且读回的正文包含新草稿的内容。
 - [ ] 场景：仓内只有 `bug`/`enhancement`/`question` → 发出去的 issue 带的就是这些标签之一；若正文语义对不上任何一个，就**不带**标签 → observable：读回该 issue 的 labels 要么为空、要么全部在 `gh label list` 的名单里，且仓内标签列表前后一致。
 - [ ] 场景：用户说"先别发" → 只得到可粘贴的草稿 + 一条准确命令 → observable：远端无新 issue，`git status` 里没有新增的临时文件。
-- [ ] `[需造境]` 场景：**技能级**的 GitLab 全流程 —— 技能自己去做搜重、自己先查 `glab label list` 再映射、自己回读比对 → **造境**：技能写出来之后，在 `llm/opencode` 上跑一遍完整流程，**只建一条**，跑完 close 掉并在正文标注是探针。observable：搜重那一步确实带了 `-A`；标签那一步确实先查了名单（零标签仓上 issue 的 labels 为空、`glab label list` 仍为 0）；回读 diff 前做了行尾归一。
+- [ ] `[需造境]` 场景：**技能级**的 GitLab 全流程 —— 技能自己去做搜重、自己先查 `glab label list` 再映射、自己回读比对 → **造境**：技能写出来之后，在自建 GitLab 的测试仓上跑一遍完整流程，**只建一条**，跑完 close 掉并在正文标注是探针。observable：搜重那一步确实带了 `-A`；标签那一步确实先查了名单（零标签仓上 issue 的 labels 为空、`glab label list` 仍为 0）；回读 diff 前做了行尾归一。
 - [ ] 场景：在受保护分支或 detached HEAD 上被请求落盘模板 → 明确告知并跳过落盘，issue 照常建 → observable：`git branch --show-current` 的输出与开工前一致（受保护分支仍是那个分支、detached 仍是那个 commit），`git status` 无新增模板文件。
 - [ ] `[需造境]` 场景：提 issue 前 agent 讲明"要写到哪个仓" → observable：回复里出现 `owner/repo`；**造境**：在一个 fork 或旧 clone 里试（`origin` 不是当前在谈的那个仓），确认 agent 讲的是 `origin` 那个仓而不是用户嘴里的仓。
 - [ ] `[需造境]` 场景：仓没有 issue 能力（GitHub 关了 issues 开关）→ 说明并给草稿，不硬试 → **造境**：临时在一个测试仓的 Settings 里关掉 Issues。observable：回复里说明"这个仓提不了 issue"，且没有产生报错重试。
@@ -174,7 +174,7 @@
 - [ ] `[静态]` 场景：三档模板正文里没有对读者露出的注释 → observable：`grep -rn '<!--' skills/issue/assets/` **零命中**（那行"本文件由 creed 技能同步，请改源头"说明是**落盘时才追加**的，源文件里本来就没有）。
 - [ ] `[静态]` 场景：`grill` 网关的新选项排第 3 位、字母连续、"其他"仍是最后一个字母 → observable：读 `skills/grill/SKILL.md` 的 Transition gate 段，选项按这个顺序，且没有两个"其他"。
 - [ ] `[静态]` 场景：四处耦合点各自的技能文件都真的改过 → observable：`grill` 网关多一项、`write-spec` 模板 header 有 `Issue:` 行、`commit-and-push/references/mr-pr.md` 写到"从会话已知的 issue 号加 `Closes #N`"、`commit-and-push/references/voice.md` 那句"applies to every copy artifact"已放宽；`using-creed` 的必装清单/技能表/建议流程/网关形状描述与 README 技能库表也同步了。
-- [ ] `[GitLab·纸上]` 场景：**换一站** —— 同一个技能在另一个 GitLab 站上跑通（仓内模板、落盘路径加引号、正文含 `→` 与反引号、搜重带 `-A`） → observable：读回的 description 与草稿一致（除 CRLF 规范化）。本机这台 `code.comein.cn` 上各条已分别跑通，缺的只是"换一站是否同样成立"。
+- [ ] `[GitLab·纸上]` 场景：**换一站** —— 同一个技能在另一个 GitLab 站上跑通（仓内模板、落盘路径加引号、正文含 `→` 与反引号、搜重带 `-A`） → observable：读回的 description 与草稿一致（除 CRLF 规范化）。本机这台自建 GitLab 上各条已分别跑通，缺的只是"换一站是否同样成立"。
 - [ ] `[需造境]` 场景：**在 GitLab 上**确认话术里必须出现"发出去只能关闭、删不掉" → observable：把确认阶段的回复给另一人看，他能在用户点"发"**之前**知道这件事；对照 GitHub 侧同一话术里出现的是"可以删"。
 - [ ] `[需造境]` 场景：搜重自身失败（离线）→ agent 不再猜，把草稿与确切命令交给用户，并说明"远端状态未确认" → **造境**：把 `HTTPS_PROXY` 指到一个死端口，让 `issue list` 也一起失败。observable：回复里同时出现草稿、具体命令与"未确认"的说明，且没有自动创建动作。
 - [ ] `[静态]` 场景：模板带可用 front matter（`name` / `about` / `labels`），且 `labels` 不写死具体值 → observable：读 `skills/issue/assets/*.md` 三份都能看到 front matter，`labels` 一栏为空或留给落盘时按仓内名单回填。
@@ -193,7 +193,7 @@
 - **grill 网关的新选项排在第 3 位**（在"回炉"之后、"其他"之前），出口那一行的字母标记随之顺延；"其他（我来打字）"必须保持是**最后一个字母**（grill 的 Iron Law 要求如此）。`using-creed` 里有两处会因此过时，都要一并改：①"Transition gates"开头那句把网关描述成"same four-option shape (A proceed / B review first / C adjust / D other)"——**grill 的网关本来就只有三项**（A 进 write-spec / B 回炉 / C 其他），加上 issue 后是四项，但形状与别的网关不同，得改成"各项技能的网关形状见其 Hand-off，不都相同"；②"Two gates are custom"那句把 grill 网关写成"only proceed/re-open"，加了 C 项后要补上"或先记一条 issue"。只改成一个笼统的"三选项或四选项"是没用的——那样既没修掉原有的错误描述，也没说清新项在哪。
 - 模板正文用占位符，**不留** `<!-- 注释 -->` —— 因为被当作文档读时注释会露出来（落盘时另加的一行"本文件由 creed 技能同步，请改源头"是唯一的例外，且它只在落盘产物里出现，源文件没有）。
 - 模板在技能 `assets/` 里带 front matter（`name` / `about` / `labels`），但 `labels` 不写死具体值 —— 不同仓的标签集不同，落盘或选用时按仓内实际名单回填。
-- 宿主命令的已知差异必须写进技能 —— **下面每条都标了结论来源：`[实跑]` = 本机真跑过并比对输出；`[核源码]` = 读 gh/glab 源码或 `--help` 推断。技能文件里要带上这两个标记、宿主版本（gh 2.97 + GitHub `Gusen1453/creed`；glab 1.114 + 自建 `code.comein.cn` 的 `llm/opencode`），不许把"核源码"说成"实测"**。**标记本身按仓库的 English-only 惯例写成 `[measured]` / `[source-checked]`**（技能文件是英文的，见 04e474b）—— 语言换掉，语义不许换：`[source-checked]` 永远不能升格成 `[measured]`。
+- 宿主命令的已知差异必须写进技能 —— **下面每条都标了结论来源：`[实跑]` = 本机真跑过并比对输出；`[核源码]` = 读 gh/glab 源码或 `--help` 推断。技能文件里要带上这两个标记与宿主版本（gh 2.97 对一个 GitHub 公开仓；glab 1.114 对一台公司自建 GitLab），不许把"核源码"说成"实测"**。**标记本身按仓库的 English-only 惯例写成 `[measured]` / `[source-checked]`**（技能文件是英文的，见 04e474b）—— 语言换掉，语义不许换：`[source-checked]` 永远不能升格成 `[measured]`。
   - **模板不能用 CLI 给**。`[实跑]` `gh issue create --template` 在非交互下必然报错（没有 body 就落进交互分支：`must provide --title and --body when not running interactively`；补 `-F` 报 ``--template` is not supported when using --body`；补 `-e` 报 `--editor ... not supported in non-tty mode`）。`[核源码]` 根因在 `create.go`：`opts.Interactive = !EditorMode && !(titleProvided && bodyProvided)`。`[实跑]` `glab` 的 `--template` 与 `--description` 是**互斥 flag 组**。⇒ 两侧都改成"自己读模板文件 → 填好 → 走 `--body-file`（gh）/ `-d`（glab）"。
   - **创建命令**：gh 用 `-t <title> -F <body.md>`（`--body-file`，不吃 stdin 的多行；`-b` 内联易被 shell 转义搞坏）；glab 用 `-t <title> -d "$(cat body.md)"`（**只有内联**，没有 `--description-file`），加 `-y` 免交互确认。`[实跑]` 两者都会把 issue URL 打到 stdout，**没有 `--json`** —— 要拿号就解析 URL 尾数，或 `gh issue list -s all -L 1 --json number`。
   - **搜重**：gh `gh issue list -s all -S "<kw>"`；glab `glab issue list -A --search "<kw>" --in title,description`。**`-A` 与 `-s all` 都不能省**：`[实跑]` 非交互下两边默认都只列 open，已关闭的重复 issue 会漏掉。`[实跑]` 两侧的搜索都覆盖**正文**（不只标题）。
@@ -201,11 +201,11 @@
   - **正文保真度**：`[实跑]` 两侧都会被规范化，**"逐字一致"必须是"除已知规范化外一致"**。gh 读回比原文**多一个换行**；glab 读回把 **LF 全变成 CRLF**。
   - **写后回读**：`gh issue view <N> --json body --jq .body` / `glab issue view <N> -F json | jq -r '.description'`，再跟本地那份 `diff`。**diff 会被上面的规范化弄红**，所以比对前要先把两侧的行尾与尾部空行归一，再判"实质一致"。
   - **误建后的收敛**：`[实跑]` `gh issue delete <N> --yes` 可用（能删干净，仓库回到 0 条）；**glab 侧 403**（`glab issue delete` 与 `glab api -X DELETE` 都是 403，该账号不是项目 owner），能用的只有 `glab issue close <N>` + `glab issue update <N> -d ...` 写清"这是误建的，请删"。⇒ **GitLab 上误建留痕且收不干净，这是"创建先问"最硬的理由，确认话术里必须说出来。**
-  - **`#N` 回链键**：`[实跑]` 两个宿主都不在分支名里带号（creed 是 `Gusen1453/work`；`llm/opencode` 是 `feat/mcp-loading` / `develop/tool-harness-hooks` 这类）；而 §3 建议的分支名形状是 `123-fix-export-empty-row`（**纯数字，不带 `#`**）。⇒ 若 commit-and-push 只在"看到 `#N`"时才加 `Closes #N`，照建议命名的分支**永远触发不了**。接口约定要改成：**commit-and-push 从本次会话已知的 issue 号取值**（或同时认 `#N` 与 `N-` 前缀两种形状），不能只认 `#N`。
+  - **`#N` 回链键**：`[实跑]` 两个宿主都不在分支名里带号（`<作者>/<主题>` 这类形状）；而 §3 建议的分支名形状是 `123-fix-export-empty-row`（**纯数字，不带 `#`**）。⇒ 若 commit-and-push 只在"看到 `#N`"时才加 `Closes #N`，照建议命名的分支**永远触发不了**。接口约定要改成：**commit-and-push 从本次会话已知的 issue 号取值**（或同时认 `#N` 与 `N-` 前缀两种形状），不能只认 `#N`。
 - GitLab 落盘涉及中文标题与空格文件名，路径要加引号。
 - 纪律：**一个能力一条 issue**，不 backlog 化；issue 是"以后某个时刻要处理"，不是"这次会话要做"。
 - 复用 `commit-and-push/references/host-cli.md` 已沉淀的双宿主坑表，**不重新试错**。具体做法：issue 技能自己的 `references/host-cli.md` 只写 **issue 侧**的命令（create / list / search / template / update / note）与坑，共用部分（`gh auth setup-git`、`glab api` 的 `-f` vs `-F`、读写后要回读校验）**只指向** `../../commit-and-push/references/host-cli.md`，不抄第二份 —— 两份坑表必然漂移。技能是成套安装的，从 `skills/issue/references/` 往上两级到 `skills/` 再进 `commit-and-push/`，相对路径可用。
-- **自建 GitLab（`code.comein.cn`）上有本机可用、且已实跑过的宿主**（`llm/opencode`）—— §6 的宿主事实大多来自它，所以"GitLab 侧只有纸面结论"不成立。
+- **自建 GitLab 上有本机可用、且已实跑过的宿主** —— §6 的宿主事实大多来自它，所以"GitLab 侧只有纸面结论"不成立。
 
 ## 7. How we'll build it（short）
 
