@@ -53,7 +53,7 @@ Briefly list the batch plan (files + proposed `type(scope)`). **Execute by defau
 
 ## §1.5 Voice
 
-Commit is the **nearest-to-the-query** layer of the copy chain — the commit message should read almost like the user's own request. The chain, the register source, and the hard checklist live in one place: **[voice.md](voice.md)**. Read it before writing any copy (commit, MR, tag, release).
+The commit is the closest piece of copy to what the user actually asked for — it should read almost like their own request. Who each piece of copy is for, where the wording comes from, and the "say it plainly" rules all live in one place: **[voice.md](voice.md)**. Read it before writing any copy (commit, MR, tag, release).
 
 ## §2 Commit each batch
 
@@ -66,7 +66,7 @@ For each batch, in order:
 3. Write the message (Conventional Commits, **hard gate** — `type(scope): subject`, type from the standard enum, scope from repo convention):
    - Subject: one line, ≤ ~50 chars, outcome verb first, language as the user writes (Chinese or English — no forced translation)
    - Body (optional): 1–2 sentences on **why / outcome**, not a file dump
-   - Run the non-obscuring checklist from [voice.md](voice.md) before committing
+   - Check it against "say it plainly" in [voice.md](voice.md) before committing
 4. Commit (no `--no-verify`, no `--no-gpg-sign`, no `git config` changes unless the user explicitly asks)
 
 ```bash

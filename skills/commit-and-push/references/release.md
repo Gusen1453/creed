@@ -39,7 +39,7 @@ git push origin <version>                  # the tag must be pushed explicitly; 
 
 ## §6.4 Publish the release
 
-Write the notes to a temp file first (reproducible + readable), matching the repo's prior release format — for voice, the release inherits from **its MRs**, not directly from the query ([voice.md](voice.md)). Common shape: **What changed** (grouped, plain language) / **Files** / **Prior release** link — but follow *this* repo's actual sections.
+Write the notes to a temp file first (reproducible + readable), matching the repo's prior release format — the notes are written from **the MRs this release packages**, not straight from the user's request ([voice.md](voice.md)). Common shape: **What changed** (grouped, plain language) / **Files** / **Prior release** link — but follow *this* repo's actual sections.
 
 ```bash
 # GitHub
@@ -74,6 +74,7 @@ Confirm tag pushed + release published + notes landed. Report the release URL.
 | Trap | Reality |
 |---|---|
 | Pushing the branch also pushes the tag | No — `git push origin <tag>` is a separate command; an unpushed tag has no remote release target. |
+| Force-pushing a tag to "fix" it | A tag others may have fetched is a published fact. Ask the user; usually the answer is a new version, not a moved tag. |
 | Tagging your feature branch head | Tag the **shipped** commit on the production branch (usually the merge commit). |
 | `gh release create` on an existing tag | Errors; use `gh release edit`. (GitLab's `create` silently updates — do it on purpose.) |
 | Inventing a version/numbering | Follow the repo's tag history; if absent, ask. |
