@@ -28,7 +28,7 @@ npx skills add Gusen1453/creed
 
 ## Detect install
 
-Required skills: `explore`, `grill`, `write-spec`, `solid`, `write-plan`, `tdd`, `test-design`, `debug`, `review`, `commit-and-push`.
+Required skills: `explore`, `grill`, `issue`, `write-spec`, `solid`, `write-plan`, `tdd`, `test-design`, `debug`, `review`, `commit-and-push`.
 
 If any are missing from the workspace skill list: **stop and ask the user to run the install command above** before doing the work. Do not invent Creed workflows from memory.
 
@@ -43,12 +43,14 @@ If any are missing from the workspace skill list: **stop and ask the user to run
 
 ```
 using-creed
-  → explore? → grill → [gate] → write-spec → [gate] → solid? → [gate]
+  → explore? → grill → [gate] → issue? → write-spec → [gate] → solid? → [gate]
   → write-plan → [gate] → tdd (+ test-design)
   → [gate] → debug? → [gate] → review → [gate] → commit-and-push
 ```
 
 `explore?` = Gate when the task modifies or references existing code (refactor / legacy / reuse); skip when greenfield.
+
+`issue?` = at grill's exit gate, one option files the intent as a trackable issue before the spec; picking it returns to the same gate. Skip when nothing is being shelved.
 
 `solid?` = Gate only when the slice adds modules / ports / IO edges; skip when no new boundary. Skipped → the `write-spec → solid` and `solid → write-plan` gates merge into one `write-spec → write-plan` gate (review object stays the spec; only the review-boundaries option drops).
 
@@ -56,13 +58,15 @@ using-creed
 
 ## Transition gates
 
-Each producing skill ends with a **Transition gate** section of its own: one
+Most producing skills end with a **Transition gate** section of their own: one
 **AskUserQuestion** at handoff — never auto-advance into the next skill, never
-auto-review — with the same four-option shape (A) proceed / B) review first /
-C) adjust / D) other), placeholders filled for that skill's object and review
-rubric. So the gate travels with the skill and fires even when the skill is used
-alone, bypassing this file. The skill's Hand-off is authoritative; this section
-only documents the shape:
+auto-review. **The options are not identical across skills, and not every skill
+has one.** grill's gate is proceed / re-open the design / file an issue first /
+other, and it has no review option (nothing is written yet to review); `issue`
+deliberately has **no gate of its own** — cold-start it just reports, and in the
+pipeline it hands control back to grill's gate, so the question is asked once.
+The rest follow the shape below. **Read the skill's Hand-off rather than
+assuming.**
 
 ```
 A) Recommended: Proceed → <next skill>
@@ -72,7 +76,7 @@ C) Adjust — go back to <producing skill>, revise the <object>, then re-gate
 D) Something else (I will type it)
 ```
 
-Rules (identical in every skill's gate):
+Rules (for the gates that follow the shape above — grill's differ, and `issue` has none):
 
 - **Choose B** → run **review** on that object with its rubric (it checks the
   object against its direct upstream; a claim→case table is mandatory). Fix Critical +
@@ -85,9 +89,9 @@ Rules (identical in every skill's gate):
   "too simple to ask" is the anti-pattern.
 
 Two gates are custom: **grill → write-spec** has nothing to review yet (the spec
-isn't written — no review option, only proceed/re-open); **review →
-commit-and-push** guards the report verdict (proceed only when Critical/Important
-are fixed or waived — never blind auto-ship).
+isn't written — no review option: proceed / re-open the design / file an issue
+first); **review → commit-and-push** guards the report verdict (proceed only when
+Critical/Important are fixed or waived — never blind auto-ship).
 
 Skipped `solid?` (no new boundary) → the `write-spec → solid` and `solid →
 write-plan` gates merge into one `write-spec → write-plan` gate (review object
@@ -99,6 +103,7 @@ stays the spec; only the review-boundaries option drops).
 |-----------|--------|
 | Refactor / rework existing code — task names methods/classes/tables to change or reference | **explore** → grill → write-spec → … |
 | New feature / behavior change / architecture / "grill me" / brainstorm — before any code | **grill** |
+| Record / file something to track later — "记一下这个 bug", "提个 issue", "这个先放着", a bug report or feature request | **issue** |
 | Approved design → durable product spec (scenarios, scope, decision log) | **write-spec** |
 | After spec: lock packages/ports/dependency arrows; or mock piles / coupling smell | **solid** |
 | Approved spec (and solid if needed) → break multi-step work into TDD tasks | **write-plan** |
@@ -106,7 +111,7 @@ stays the spec; only the review-boundaries option drops).
 | Writing or reviewing tests: worth testing? unit vs integration? what to assert / mock? | **test-design** |
 | Bug, test/CI failure, unexpected behavior, or about to claim "fixed" | **debug** |
 | Finished a task slice / before opening or updating a PR | **review** |
-| Stage handoff — proceed vs review vs adjust (the user decides) | each skill's own **Transition gate** (in its Hand-off) |
+| Stage handoff — the user decides what happens next | the producing skill's **Hand-off** section (options vary; `issue` has none) |
 | Review a spec / plan / structure decision as its own object (not code) | **review** (routes to `references/{spec,plan,solid}.md`) |
 | User asks to commit / push / open a PR (PR needs a Test plan) | **commit-and-push** |
 
@@ -157,4 +162,4 @@ Let the agent explore the repo for the rest; grill it only on judgment calls. Ru
 - [ ] Companion Creed skills installed (else → Quick Start)
 - [ ] Relevant Creed skill identified (or consciously N/A)
 - [ ] Skill read/followed; announced
-- [ ] Transition gate run at each `[gate]` — user chose proceed / review / adjust (or explicitly waived)
+- [ ] Transition gate run at each `[gate]` — user chose one of *that skill's* options (proceed / review / adjust, or grill's re-open / file-an-issue), or explicitly waived
