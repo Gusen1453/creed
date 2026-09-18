@@ -42,6 +42,8 @@ The register (language + tone) is sampled at the **anchor**, then carried along 
 
 ## Non-obscuring checklist (hard — applies to every copy artifact)
 
+One carve-out: the **outcome-verb** rule below is for commit subjects and the copy that inherits them. An **issue title** is not one of those — a symptom-shaped bug title ("导出空行时崩溃") is the correct form and must not be rewritten into "修复导出崩溃", which describes a fix that has not happened yet. (See the `issue` skill's title rule: outcome-verb for feature/custom, symptom statement for bugs.)
+
 - Subject ≤ ~50 chars of substance; one line
 - Start with the **outcome/result verb** (add, ship, route, expose, fix, drop…), not an adjective stack
 - No piled modifiers; no vague verbs ("improve", "better", "make nicer"); no file-name dump

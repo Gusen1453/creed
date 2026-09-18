@@ -77,6 +77,16 @@ Detect once per MR (§4.5 already has `source`/`target`); if the roles are ambig
 - Map items to real risks in *this* diff (routing, config, compatibility, prompts, migrations, …)
 - Prefer behavior checks over "coverage went up"
 
+### Issue linkage (closing keyword)
+
+When the work came from a filed issue, add a closing keyword so the issue closes itself on merge.
+
+- **Preferred source: the number this session already has** — if the issue was filed (or read) in this conversation, use that `<N>`.
+- **Fallback: the branch name**, matching either `#<N>` anywhere or a leading `<N>-` (the shape the `issue` skill suggests is `123-fix-export-empty-row`, **no `#`** — a `#`-only matcher would never fire).
+- **Neither present → do not guess.** Say the linkage could not be determined rather than inventing a number.
+
+Write it in the description (both hosts accept `Closes #<N>`; GitLab also accepts `Closes #<N>` and treats it the same).
+
 **Do not** create a new MR/PR without an explicit yes — see §4.5.
 If the remote prints a "create merge request" URL after push, include it in the report.
 
